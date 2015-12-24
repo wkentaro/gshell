@@ -50,7 +50,7 @@ def getcwd():
 
 @cli.command(name='upload')
 @click.argument('filename', required=True, type=click.Path(exists=True))
-def upload(filename):
+def cmd_upload(filename):
     init()
     cwd = getcwd()
     cmd = '{exe} upload --file {file} --parent {pid}'.format(
@@ -60,7 +60,7 @@ def upload(filename):
 
 @cli.command(name='download')
 @click.argument('filename', required=True)
-def download(filename):
+def cmd_download(filename):
     init()
     id = get_id_by_name(filename)
     cmd = '{exe} download --id {id}'.format(exe=DRIVE_EXE, id=id)
@@ -69,7 +69,7 @@ def download(filename):
 
 @cli.command(name='rm')
 @click.argument('filename', required=True)
-def rm(filename):
+def cmd_rm(filename):
     init()
     id = get_id_by_name(filename)
     cmd = '{exe} delete --id {id}'.format(exe=DRIVE_EXE, id=id)
@@ -77,7 +77,7 @@ def rm(filename):
 
 
 @cli.command(name='ll')
-def ll():
+def cmd_ll():
     init()
     cwd = getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(
@@ -86,7 +86,7 @@ def ll():
 
 
 @cli.command(name='ls')
-def ls():
+def cmd_ls():
     init()
     cwd = getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
@@ -101,7 +101,7 @@ def ls():
 
 @cli.command(name='mkdir')
 @click.argument('dirname', required=True)
-def mkdir(dirname):
+def cmd_mkdir(dirname):
     init()
     cwd = getcwd()
     cmd = '{exe} folder --title {name} --parent {pid}'.format(
@@ -110,7 +110,7 @@ def mkdir(dirname):
 
 
 @cli.command(name='pwd')
-def pwd():
+def cmd_pwd():
     init()
     print(getcwd()['name'])
 
@@ -144,7 +144,7 @@ def get_parent_id(id):
 
 @cli.command(name='cd')
 @click.argument('dirname', required=False)
-def cd(dirname):
+def cmd_cd(dirname):
     init()
     cwd = getcwd()
     if dirname is None:
@@ -163,6 +163,15 @@ def cd(dirname):
         cwd['id'] = id
         cwd['name'] = get_name_by_id(id=id)
     yaml.dump(cwd, open(CONFIG_FILE, 'w'))
+
+
+@cli.command(name='open')
+def cmd_open():
+    init()
+    cwd = getcwd()
+    cmd = "gnome-open 'https://drive.google.com/drive/u/1/folders/{id}'"\
+        .format(id=cwd['id'])
+    subprocess.call(cmd, shell=True)
 
 
 if __name__ == '__main__':
