@@ -50,16 +50,39 @@ def getcwd():
 @cli.command(name='upload')
 @click.argument('filename', required=True, type=click.Path(exists=True))
 def upload(filename):
+    init()
     cwd = getcwd()
     cmd = '{exe} upload --file {file} --parent {pid}'.format(exe=DRIVE_EXE, file=filename, pid=cwd['id'])
     subprocess.call(cmd, shell=True)
 
 
+@cli.command(name='download')
+@click.argument('filename', required=True)
+def download(filename):
+    init()
+    cwd = getcwd()
+    id = get_id_by_name(filename)
+    cmd = '{exe} download --id {id}'.format(exe=DRIVE_EXE, id=id)
+    subprocess.call(cmd, shell=True)
+
+
+@cli.command(name='rm')
+@click.argument('filename', required=True)
+def rm(filename):
+    init()
+    cwd = getcwd()
+    id = get_id_by_name(filename)
+    cmd = '{exe} delete --id {id}'.format(exe=DRIVE_EXE, id=id)
+    subprocess.call(cmd, shell=True)
+
+
 @cli.command(name='ll')
-def ls():
+def ll():
+    init()
     cwd = getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(exe=DRIVE_EXE, pid=cwd['id'])
     subprocess.call(cmd, shell=True)
+
 
 @cli.command(name='ls')
 def ls():
@@ -76,6 +99,7 @@ def ls():
 @cli.command(name='mkdir')
 @click.argument('dirname', required=True)
 def mkdir(dirname):
+    init()
     cmd = '{exe} folder --title {name} --parent {pid}'.format(exe=DRIVE_EXE, name=dirname, pid=MYDRIVE_ID)
     subprocess.call(cmd, shell=True)
 
@@ -95,6 +119,7 @@ def pwd():
 
 
 def get_id_by_name(name):
+    init()
     cwd = getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True)
@@ -107,6 +132,7 @@ def get_id_by_name(name):
 
 
 def get_parent_id(id):
+    init()
     cmd = '{exe} info --id {id}'.format(exe=DRIVE_EXE, id=id)
     stdout = subprocess.check_output(cmd, shell=True)
     for l in stdout.splitlines():
@@ -117,6 +143,7 @@ def get_parent_id(id):
 @cli.command(name='cd')
 @click.argument('dirname', required=False)
 def cd(dirname):
+    init()
     cwd = getcwd()
     if dirname is None:
         cwd['id'] = cwd['home_id']
