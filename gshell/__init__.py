@@ -25,7 +25,8 @@ def cli():
 
 
 def init():
-    subprocess.call(DRIVE_EXE, shell=True)
+    if not os.path.exists(CONFIG_FILE):
+        subprocess.call(DRIVE_EXE, shell=True)
 
 
 def get_name_by_id(id):
@@ -93,7 +94,7 @@ def ls():
     header = lines[0]
     start = re.search('Title', header).start()
     end = re.search('Size', header).start()
-    print('\n'.join([l[start:end] for l in stdout.splitlines()[1:]]))
+    print('\n'.join([l[start:end].strip() for l in stdout.splitlines()[1:]]))
 
 
 @cli.command(name='mkdir')
@@ -121,10 +122,14 @@ def pwd():
 def get_id_by_name(name):
     init()
     cwd = getcwd()
-    cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(exe=DRIVE_EXE, pid=cwd['id'])
+    cmd = '''{exe} list --query " '{pid}' in parents"'''.format(exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True)
-    for l in stdout.splitlines():
-        id, title = l.split('   ')[:2]
+    lines = stdout.splitlines()
+    header = lines[0]
+    start = re.search('Title', header).start()
+    end = re.search('Size', header).start()
+    for l in stdout.splitlines()[1:]:
+        id, title = l[:start].strip(), l[start:end].strip()
         if len(name) > 40:
             name = name[:19] + '...' + name[-18:]
         if name == title:
@@ -154,6 +159,10 @@ def cd(dirname):
         cwd['name'] = get_name_by_id(id=id)
     else:
         id = get_id_by_name(dirname)
+        if id is None:
+            sys.stderr.write('directory {name} does not exist\n'
+                             .format(name=dirname))
+            sys.exit(1)
         cwd['id'] = id
         cwd['name'] = get_name_by_id(id=id)
     yaml.dump(cwd, open(CONFIG_FILE, 'w'))
