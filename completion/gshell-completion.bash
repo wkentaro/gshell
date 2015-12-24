@@ -20,7 +20,7 @@ _gshell()
         opts=$(gshell ls)
         ;;
       upload)
-        opts=$(ls)
+        opts=$(command ls)
         ;;
     esac
 
