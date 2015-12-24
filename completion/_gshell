@@ -1,0 +1,9 @@
+#compdef gshell
+
+_gshell () {
+  local e
+  e=$(dirname ${funcsourcetrace[1]%:*})/gshell-completion.bash
+  if [ -f $e ]; then
+    . $e
+  fi
+}
