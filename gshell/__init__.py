@@ -11,7 +11,7 @@ import click
 
 
 __author__ = 'Kentaro Wada <www.kentaro.wada@gmail.com>'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 
 
 this_dir = os.path.dirname(os.path.abspath(os.path.realpath(__file__)))
