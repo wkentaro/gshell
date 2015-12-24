@@ -3,8 +3,8 @@
 
 import os
 import re
-import sys
 import subprocess
+import sys
 import yaml
 
 import click
@@ -53,7 +53,8 @@ def getcwd():
 def upload(filename):
     init()
     cwd = getcwd()
-    cmd = '{exe} upload --file {file} --parent {pid}'.format(exe=DRIVE_EXE, file=filename, pid=cwd['id'])
+    cmd = '{exe} upload --file {file} --parent {pid}'.format(
+        exe=DRIVE_EXE, file=filename, pid=cwd['id'])
     subprocess.call(cmd, shell=True)
 
 
@@ -61,7 +62,6 @@ def upload(filename):
 @click.argument('filename', required=True)
 def download(filename):
     init()
-    cwd = getcwd()
     id = get_id_by_name(filename)
     cmd = '{exe} download --id {id}'.format(exe=DRIVE_EXE, id=id)
     subprocess.call(cmd, shell=True)
@@ -71,7 +71,6 @@ def download(filename):
 @click.argument('filename', required=True)
 def rm(filename):
     init()
-    cwd = getcwd()
     id = get_id_by_name(filename)
     cmd = '{exe} delete --id {id}'.format(exe=DRIVE_EXE, id=id)
     subprocess.call(cmd, shell=True)
@@ -81,7 +80,8 @@ def rm(filename):
 def ll():
     init()
     cwd = getcwd()
-    cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(exe=DRIVE_EXE, pid=cwd['id'])
+    cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(
+        exe=DRIVE_EXE, pid=cwd['id'])
     subprocess.call(cmd, shell=True)
 
 
@@ -89,7 +89,8 @@ def ll():
 def ls():
     init()
     cwd = getcwd()
-    cmd = '''{exe} list --query " '{pid}' in parents"'''.format(exe=DRIVE_EXE, pid=cwd['id'])
+    cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
+        exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True)
     lines = stdout.splitlines()
     header = lines[0]
@@ -102,7 +103,9 @@ def ls():
 @click.argument('dirname', required=True)
 def mkdir(dirname):
     init()
-    cmd = '{exe} folder --title {name} --parent {pid}'.format(exe=DRIVE_EXE, name=dirname, pid=MYDRIVE_ID)
+    cwd = getcwd()
+    cmd = '{exe} folder --title {name} --parent {pid}'.format(
+        exe=DRIVE_EXE, name=dirname, pid=cwd['id'])
     subprocess.call(cmd, shell=True)
 
 
@@ -112,19 +115,11 @@ def pwd():
     print(getcwd()['name'])
 
 
-# def _get_filenames():
-#     cwd = getcwd()
-#     cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(exe=DRIVE_EXE, pid=cwd['id'])
-#     stdout = subprocess.check_output(cmd, shell=True)
-#     for l in stdout.splitlines():
-#         id = l.split()[0]
-#         yield get_name_by_id(id=id)
-
-
 def get_id_by_name(name):
     init()
     cwd = getcwd()
-    cmd = '''{exe} list --query " '{pid}' in parents"'''.format(exe=DRIVE_EXE, pid=cwd['id'])
+    cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
+        exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True)
     lines = stdout.splitlines()
     header = lines[0]
