@@ -25,7 +25,7 @@ def cli():
 
 
 def init():
-    if not os.path.exists(CONFIG_FILE):
+    if not os.path.exists(os.path.expanduser('~/.gdrive')):
         subprocess.call(DRIVE_EXE, shell=True)
 
 
@@ -87,6 +87,7 @@ def ll():
 
 @cli.command(name='ls')
 def ls():
+    init()
     cwd = getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents"'''.format(exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True)
@@ -107,6 +108,7 @@ def mkdir(dirname):
 
 @cli.command(name='pwd')
 def pwd():
+    init()
     print(getcwd()['name'])
 
 
