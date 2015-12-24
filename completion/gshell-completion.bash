@@ -12,12 +12,15 @@ _gshell()
     opts=""
 
     if [[ ${opts} = "" ]] ; then
-      opts="ls ll pwd cd"
+      opts="ls ll pwd cd rm download mkdir upload"
     fi
 
     case "$prev" in
-      cd)
+      cd|rm|download)
         opts=$(gshell ls)
+        ;;
+      upload)
+        opts=$(ls)
         ;;
     esac
 
