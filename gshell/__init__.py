@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import platform
 import re
 import subprocess
 import sys
@@ -16,7 +17,14 @@ __version__ = '1.0.9'
 
 this_dir = os.path.dirname(os.path.abspath(os.path.realpath(__file__)))
 CONFIG_FILE = os.path.expanduser('~/.gshell')
-DRIVE_EXE = '_gshell_drive'
+if platform.uname()[0] == 'Linux':
+    DRIVE_EXE = '_gshell_drive-linux-x64'
+elif platform.uname()[0] == 'Darwin':
+    DRIVE_EXE = '_gshell_drive-osx-x64'
+else:
+    sys.stderr.write('Not supported os\n')
+    sys.exit(1)
+
 
 
 @click.group()
@@ -169,8 +177,15 @@ def cmd_cd(dirname):
 def cmd_open():
     init()
     cwd = getcwd()
-    cmd = "gnome-open 'https://drive.google.com/drive/u/1/folders/{id}'"\
-        .format(id=cwd['id'])
+    if platform.uname()[0] == 'Linux':
+        open_exe = 'gnome-open'
+    elif platform.uname()[0] == 'Darwin':
+        open_exe = 'open'
+    else:
+        sys.stderr.write('Not supported os\n')
+        sys.exit(1)
+    cmd = "{exe} 'https://drive.google.com/drive/u/1/folders/{id}'"\
+        .format(exe=open_exe, id=cwd['id'])
     subprocess.call(cmd, shell=True)
 
 

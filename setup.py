@@ -74,6 +74,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         ],
     entry_points={'console_scripts': ['gshell=gshell:cli']},
-    scripts=['gshell/bin/_gshell_drive'],
+    scripts=['gshell/bin/_gshell_drive-linux-x64',
+             'gshell/bin/_gshell_drive-osx-x64'],
     data_files=get_data_files(),
 )
