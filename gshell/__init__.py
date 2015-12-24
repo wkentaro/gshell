@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import re
 import sys
 import subprocess
 import yaml
@@ -63,9 +64,13 @@ def ls():
 @cli.command(name='ls')
 def ls():
     cwd = getcwd()
-    cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(exe=DRIVE_EXE, pid=cwd['id'])
+    cmd = '''{exe} list --query " '{pid}' in parents"'''.format(exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True)
-    print('\n'.join([l.split('   ')[1] for l in stdout.splitlines()]))
+    lines = stdout.splitlines()
+    header = lines[0]
+    start = re.search('Title', header).start()
+    end = re.search('Size', header).start()
+    print('\n'.join([l[start:end] for l in stdout.splitlines()[1:]]))
 
 
 @cli.command(name='mkdir')
