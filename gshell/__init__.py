@@ -174,5 +174,14 @@ def cmd_open():
     subprocess.call(cmd, shell=True)
 
 
+@cli.command(name='share')
+@click.argument('filename', required=True)
+def cmd_share(filename):
+    init()
+    id = get_id_by_name(name=filename)
+    cmd = '{exe} share --id {id}'.format(exe=DRIVE_EXE, id=id)
+    subprocess.call(cmd, shell=True)
+
+
 if __name__ == '__main__':
     cli()
