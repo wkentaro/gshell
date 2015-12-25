@@ -56,7 +56,7 @@ def getcwd():
     return config
 
 
-@cli.command(name='upload')
+@cli.command(name='upload', help='upload file')
 @click.argument('filename', required=True, type=click.Path(exists=True))
 def cmd_upload(filename):
     init()
@@ -66,7 +66,7 @@ def cmd_upload(filename):
     subprocess.call(cmd, shell=True)
 
 
-@cli.command(name='download')
+@cli.command(name='download', help='download file')
 @click.argument('filename', required=True)
 def cmd_download(filename):
     init()
@@ -75,7 +75,7 @@ def cmd_download(filename):
     subprocess.call(cmd, shell=True)
 
 
-@cli.command(name='rm')
+@cli.command(name='rm', help='remove file')
 @click.argument('filename', required=True)
 def cmd_rm(filename):
     init()
@@ -84,7 +84,7 @@ def cmd_rm(filename):
     subprocess.call(cmd, shell=True)
 
 
-@cli.command(name='ll')
+@cli.command(name='ll', help='list files in detail')
 def cmd_ll():
     init()
     cwd = getcwd()
@@ -93,7 +93,7 @@ def cmd_ll():
     subprocess.call(cmd, shell=True)
 
 
-@cli.command(name='ls')
+@cli.command(name='ls', help='list files')
 def cmd_ls():
     init()
     cwd = getcwd()
@@ -107,7 +107,7 @@ def cmd_ls():
     print('\n'.join([l[start:end].strip() for l in stdout.splitlines()[1:]]))
 
 
-@cli.command(name='mkdir')
+@cli.command(name='mkdir', help='make directory')
 @click.argument('dirname', required=True)
 def cmd_mkdir(dirname):
     init()
@@ -117,7 +117,7 @@ def cmd_mkdir(dirname):
     subprocess.call(cmd, shell=True)
 
 
-@cli.command(name='pwd')
+@cli.command(name='pwd', help='print current working directory')
 def cmd_pwd():
     init()
     print(getcwd()['name'])
@@ -150,7 +150,7 @@ def get_parent_id(id):
             return l.split()[-1]
 
 
-@cli.command(name='cd')
+@cli.command(name='cd', help='change directory')
 @click.argument('dirname', required=False)
 def cmd_cd(dirname):
     init()
@@ -173,7 +173,7 @@ def cmd_cd(dirname):
     yaml.dump(cwd, open(CONFIG_FILE, 'w'))
 
 
-@cli.command(name='open')
+@cli.command(name='open', help='open current site on browser')
 def cmd_open():
     init()
     cwd = getcwd()
@@ -189,7 +189,7 @@ def cmd_open():
     subprocess.call(cmd, shell=True)
 
 
-@cli.command(name='share')
+@cli.command(name='share', help='share file')
 @click.argument('filename', required=True)
 def cmd_share(filename):
     init()

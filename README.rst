@@ -32,13 +32,13 @@ Commands
     --help  Show this message and exit.
 
   Commands:
-    cd
-    download
-    ll
-    ls
-    mkdir
-    open
-    pwd
-    rm
-    share
-    upload
+    cd        change directory
+    download  download file
+    ll        list files in detail
+    ls        list files
+    mkdir     make directory
+    open      open current site on browser
+    pwd       print current working directory
+    rm        remove file
+    share     share file
+    upload    upload file
