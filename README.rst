@@ -42,3 +42,10 @@ Commands
     rm        remove file
     share     share file
     upload    upload file
+
+
+License
+=======
+| Copyright (C) 2015 Kentaro Wada
+| Released under the MIT license
+| http://opensource.org/licenses/mit-license.php
