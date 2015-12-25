@@ -2,7 +2,7 @@
 gshell
 ======
 
-Handle Google Drive like shell.
+Navigate in Google Drive like doing on shell.
 
 
 Screencast
@@ -13,10 +13,18 @@ Screencast
    :target: https://www.youtube.com/watch?v=eDRTj_Hy2k4
 
 
+Install
+=======
+
+.. code-block:: bash
+
+  pip install gshell
+
+
 Commands
 ========
 
-.. code-block:: shell
+.. code-block:: bash
 
   Usage: gshell [OPTIONS] COMMAND [ARGS]...
 
