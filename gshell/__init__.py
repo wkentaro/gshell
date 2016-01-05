@@ -33,8 +33,25 @@ def cli():
 
 
 def init():
-    if not os.path.exists(os.path.expanduser('~/.gdrive')):
+    if not os.path.exists(os.path.expanduser('~/.gdrive/token.json')):
         subprocess.call(DRIVE_EXE, shell=True)
+    if not os.path.exists(CONFIG_FILE):
+        init_config()
+
+
+def init_config():
+    home_id = raw_input('Please specify home directory id: ')
+    name = get_name_by_id(home_id)
+    config = {'home_id': home_id, 'home_name': name,
+              'id': home_id, 'name': name}
+    yaml.dump(config, open(CONFIG_FILE, 'w'))
+    return config
+
+
+def getcwd():
+    if os.path.exists(CONFIG_FILE):
+        return yaml.load(open(CONFIG_FILE))
+    return init_config()
 
 
 def get_name_by_id(id):
@@ -43,17 +60,6 @@ def get_name_by_id(id):
     for l in stdout.splitlines():
         if l.startswith('Title: '):
             return l.split()[-1]
-
-
-def getcwd():
-    if os.path.exists(CONFIG_FILE):
-        return yaml.load(open(CONFIG_FILE))
-    home_id = raw_input('Please specify home directory id: ')
-    name = get_name_by_id(home_id)
-    config = {'home_id': home_id, 'home_name': name,
-              'id': home_id, 'name': name}
-    yaml.dump(config, open(CONFIG_FILE, 'w'))
-    return config
 
 
 @cli.command(name='upload', help='upload file')
