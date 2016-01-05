@@ -59,7 +59,6 @@ def getcwd():
 @cli.command(name='upload', help='upload file')
 @click.argument('filename', required=True, type=click.Path(exists=True))
 def cmd_upload(filename):
-    init()
     cwd = getcwd()
     cmd = '{exe} upload --file {file} --parent {pid}'.format(
         exe=DRIVE_EXE, file=filename, pid=cwd['id'])
@@ -69,7 +68,6 @@ def cmd_upload(filename):
 @cli.command(name='download', help='download file')
 @click.argument('filename', required=True)
 def cmd_download(filename):
-    init()
     id = get_id_by_name(filename)
     cmd = '{exe} download --id {id}'.format(exe=DRIVE_EXE, id=id)
     subprocess.call(cmd, shell=True)
@@ -78,7 +76,6 @@ def cmd_download(filename):
 @cli.command(name='rm', help='remove file')
 @click.argument('filename', required=True)
 def cmd_rm(filename):
-    init()
     id = get_id_by_name(filename)
     cmd = '{exe} delete --id {id}'.format(exe=DRIVE_EXE, id=id)
     subprocess.call(cmd, shell=True)
@@ -86,7 +83,6 @@ def cmd_rm(filename):
 
 @cli.command(name='ll', help='list files in detail')
 def cmd_ll():
-    init()
     cwd = getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(
         exe=DRIVE_EXE, pid=cwd['id'])
@@ -95,7 +91,6 @@ def cmd_ll():
 
 @cli.command(name='ls', help='list files')
 def cmd_ls():
-    init()
     cwd = getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
         exe=DRIVE_EXE, pid=cwd['id'])
@@ -110,7 +105,6 @@ def cmd_ls():
 @cli.command(name='mkdir', help='make directory')
 @click.argument('dirname', required=True)
 def cmd_mkdir(dirname):
-    init()
     cwd = getcwd()
     cmd = '{exe} folder --title {name} --parent {pid}'.format(
         exe=DRIVE_EXE, name=dirname, pid=cwd['id'])
@@ -119,12 +113,10 @@ def cmd_mkdir(dirname):
 
 @cli.command(name='pwd', help='print current working directory')
 def cmd_pwd():
-    init()
     print(getcwd()['name'])
 
 
 def get_id_by_name(name):
-    init()
     cwd = getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
         exe=DRIVE_EXE, pid=cwd['id'])
@@ -142,7 +134,6 @@ def get_id_by_name(name):
 
 
 def get_parent_id(id):
-    init()
     cmd = '{exe} info --id {id}'.format(exe=DRIVE_EXE, id=id)
     stdout = subprocess.check_output(cmd, shell=True)
     for l in stdout.splitlines():
@@ -153,7 +144,6 @@ def get_parent_id(id):
 @cli.command(name='cd', help='change directory')
 @click.argument('dirname', required=False)
 def cmd_cd(dirname):
-    init()
     cwd = getcwd()
     if dirname is None:
         cwd['id'] = cwd['home_id']
@@ -175,7 +165,6 @@ def cmd_cd(dirname):
 
 @cli.command(name='open', help='open current site on browser')
 def cmd_open():
-    init()
     cwd = getcwd()
     if platform.uname()[0] == 'Linux':
         open_exe = 'gnome-open'
@@ -192,11 +181,15 @@ def cmd_open():
 @cli.command(name='share', help='share file')
 @click.argument('filename', required=True)
 def cmd_share(filename):
-    init()
     id = get_id_by_name(name=filename)
     cmd = '{exe} share --id {id}'.format(exe=DRIVE_EXE, id=id)
     subprocess.call(cmd, shell=True)
 
 
-if __name__ == '__main__':
+def main():
+    init()
     cli()
+
+
+if __name__ == '__main__':
+    main()
