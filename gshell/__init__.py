@@ -149,9 +149,16 @@ def get_parent_id(id):
 
 @cli.command(name='cd', help='change directory')
 @click.argument('dirname', required=False)
-def cmd_cd(dirname):
+@click.option('--with-id', default=False, is_flag=True,
+              help='change directory with folder id')
+def cmd_cd(dirname, with_id):
     cwd = getcwd()
-    if dirname is None:
+    if with_id:
+        id = dirname
+        dirname = get_name_by_id(id=id)
+        cwd['id'] = id
+        cwd['name'] = dirname
+    elif dirname is None:
         cwd['id'] = cwd['home_id']
         cwd['name'] = cwd['home_name']
     elif dirname == '..':
