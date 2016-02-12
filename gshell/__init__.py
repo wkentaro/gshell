@@ -167,16 +167,18 @@ def cmd_cd(dirname, with_id):
         cwd['id'] = id
     elif dirname is None:
         cwd['id'] = cwd['home_id']
-    elif dirname == '..':
-        id = get_parent_id(cwd['id'])
-        cwd['id'] = id
     else:
-        id = get_id_by_name(dirname)
-        if id is None:
-            sys.stderr.write('directory {name} does not exist\n'
-                             .format(name=dirname))
-            sys.exit(1)
-        cwd['id'] = id
+        for d in os.path.split(dirname):
+            if d == '..':
+                id = get_parent_id(cwd['id'])
+                cwd['id'] = id
+            else:
+                id = get_id_by_name(d)
+                if id is None:
+                    sys.stderr.write('directory {name} does not exist\n'
+                                    .format(name=dirname))
+                    sys.exit(1)
+                cwd['id'] = id
     yaml.dump(cwd, open(CONFIG_FILE, 'w'))
 
 
