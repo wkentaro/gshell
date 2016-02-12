@@ -11,8 +11,10 @@ _gshell()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     opts=""
 
-    if [[ ${opts} = "" ]] ; then
-      opts="ls ll pwd cd rm download mkdir upload share"
+    if [ ${COMP_CWORD} -eq 1 ]; then
+      if [[ ${opts} = "" ]]; then
+        opts="ls ll pwd cd rm download mkdir upload share"
+      fi
     fi
 
     case "$prev" in
