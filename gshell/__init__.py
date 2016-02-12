@@ -139,23 +139,24 @@ def cmd_pwd():
 
 def get_id_by_path(path):
     cwd = getcwd()
-    for d in os.path.split(path):
+    for d in path.split('/'):
         if not d:
             continue
         if d == '..':
             id = get_parent_id(cwd['id']) or cwd['id']
         else:
-            id = get_id_by_name(d)
+            id = get_id_by_name(d, cwd=cwd)
             if id is None:
                 sys.stderr.write('directory {name} does not exist\n'
                                 .format(name=d))
                 sys.exit(1)
-    return id
+        cwd['id'] = id
+    return cwd['id']
 
 
 
-def get_id_by_name(name):
-    cwd = getcwd()
+def get_id_by_name(name, cwd=None):
+    cwd = cwd or getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
         exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True)
