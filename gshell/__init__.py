@@ -122,6 +122,9 @@ def cmd_pwd():
     id = cwd['id']
     pwd = deque()
     while id is not None:
+        if id == cwd['home_id']:
+            pwd.appendleft('~')
+            break
         pwd.appendleft(get_name_by_id(id))
         id = get_parent_id(id)
     print(os.path.join(*pwd))
