@@ -95,16 +95,23 @@ def cmd_ll():
 
 
 @cli.command(name='ls', help='list files')
-def cmd_ls():
-    cwd = getcwd()
+@click.argument('path', required=False)
+def cmd_ls(path):
+    if path is None:
+        cwd = getcwd()
+        id = cwd['id']
+    else:
+        id = get_id_by_path(path)
     cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
-        exe=DRIVE_EXE, pid=cwd['id'])
+        exe=DRIVE_EXE, pid=id)
     stdout = subprocess.check_output(cmd, shell=True)
     lines = stdout.splitlines()
     header = lines[0]
     start = re.search('Title', header).start()
     end = re.search('Size', header).start()
-    print('\n'.join([l[start:end].strip() for l in stdout.splitlines()[1:]]))
+    path = '' if path is None else path
+    print('\n'.join(os.path.join(path, l[start:end].strip())
+                    for l in stdout.splitlines()[1:]))
 
 
 @cli.command(name='mkdir', help='make directory')
