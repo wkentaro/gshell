@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from collections import deque
 import os
 import platform
 import re
@@ -119,7 +120,13 @@ def cmd_mkdir(dirname):
 
 @cli.command(name='pwd', help='print current working directory')
 def cmd_pwd():
-    print(getcwd()['name'])
+    cwd = getcwd()
+    id = cwd['id']
+    pwd = deque()
+    while id is not None:
+        pwd.appendleft(get_name_by_id(id))
+        id = get_parent_id(id)
+    print(os.path.join(*pwd))
 
 
 def get_id_by_name(name):
