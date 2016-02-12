@@ -42,9 +42,7 @@ def init():
 
 def init_config():
     home_id = raw_input('Please specify home directory id: ')
-    name = get_name_by_id(home_id)
-    config = {'home_id': home_id, 'home_name': name,
-              'id': home_id, 'name': name}
+    config = {'home_id': home_id, 'id': home_id}
     yaml.dump(config, open(CONFIG_FILE, 'w'))
     return config
 
@@ -164,14 +162,11 @@ def cmd_cd(dirname, with_id):
         id = dirname
         dirname = get_name_by_id(id=id)
         cwd['id'] = id
-        cwd['name'] = dirname
     elif dirname is None:
         cwd['id'] = cwd['home_id']
-        cwd['name'] = cwd['home_name']
     elif dirname == '..':
         id = get_parent_id(cwd['id'])
         cwd['id'] = id
-        cwd['name'] = get_name_by_id(id=id)
     else:
         id = get_id_by_name(dirname)
         if id is None:
@@ -179,7 +174,6 @@ def cmd_cd(dirname, with_id):
                              .format(name=dirname))
             sys.exit(1)
         cwd['id'] = id
-        cwd['name'] = get_name_by_id(id=id)
     yaml.dump(cwd, open(CONFIG_FILE, 'w'))
 
 
