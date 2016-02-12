@@ -130,6 +130,23 @@ def cmd_pwd():
     print(os.path.join(*pwd))
 
 
+def get_id_by_path(path):
+    cwd = getcwd()
+    for d in os.path.split(path):
+        if not d:
+            continue
+        if d == '..':
+            id = get_parent_id(cwd['id']) or cwd['id']
+        else:
+            id = get_id_by_name(d)
+            if id is None:
+                sys.stderr.write('directory {name} does not exist\n'
+                                .format(name=d))
+                sys.exit(1)
+    return id
+
+
+
 def get_id_by_name(name):
     cwd = getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
@@ -168,17 +185,7 @@ def cmd_cd(dirname, with_id):
     elif dirname is None:
         cwd['id'] = cwd['home_id']
     else:
-        for d in os.path.split(dirname):
-            if d == '..':
-                id = get_parent_id(cwd['id'])
-                cwd['id'] = id
-            else:
-                id = get_id_by_name(d)
-                if id is None:
-                    sys.stderr.write('directory {name} does not exist\n'
-                                    .format(name=dirname))
-                    sys.exit(1)
-                cwd['id'] = id
+        cwd['id'] = get_id_by_path(dirname)
     yaml.dump(cwd, open(CONFIG_FILE, 'w'))
 
 
