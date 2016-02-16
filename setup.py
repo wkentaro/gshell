@@ -10,6 +10,9 @@ import platform
 from setuptools import setup, find_packages
 
 
+version = '2.2.0'
+
+
 def get_data_files():
 
     def get_completion_install_location(shell):
@@ -49,14 +52,14 @@ def get_data_files():
 if sys.argv[-1] == 'publish':
     for cmd in [
             'python setup.py sdist upload',
-            'git tag {}'.format(__import__('gshell').__version__),
+            'git tag {}'.format(version),
             'git push origin master --tag']:
         subprocess.check_call(cmd, shell=True)
     sys.exit(0)
 
 setup(
     name='gshell',
-    version=__import__('gshell').__version__,
+    version=version,
     packages=find_packages(),
     description='Tool to handle google drive as shell',
     long_description=open('README.rst').read(),

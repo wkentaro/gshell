@@ -3,6 +3,7 @@
 
 from collections import deque
 import os
+import pkg_resources
 import platform
 import re
 import subprocess
@@ -13,7 +14,7 @@ import click
 
 
 __author__ = 'Kentaro Wada <www.kentaro.wada@gmail.com>'
-__version__ = '2.2.0'
+__version__ = pkg_resources.get_distribution('gshell').version
 
 
 this_dir = os.path.dirname(os.path.abspath(os.path.realpath(__file__)))
