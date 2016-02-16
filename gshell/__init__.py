@@ -30,6 +30,7 @@ else:
 
 
 @click.group()
+@click.version_option(version=__version__, '-V', '--version')
 def cli():
     pass
 
