@@ -45,7 +45,7 @@ def init():
 def init_config():
     home_id = raw_input('Please specify home directory id: ')
     config = {'home_id': home_id, 'id': home_id}
-    yaml.dump(config, open(CONFIG_FILE, 'w'))
+    yaml.dump(config, open(CONFIG_FILE, 'w'), default_flow_style=False)
     return config
 
 
@@ -198,7 +198,7 @@ def cmd_cd(dirname, with_id):
         cwd['id'] = cwd['home_id']
     else:
         cwd['id'] = get_id_by_path(dirname)
-    yaml.dump(cwd, open(CONFIG_FILE, 'w'))
+    yaml.dump(cwd, open(CONFIG_FILE, 'w'), default_flow_style=False)
 
 
 @cli.command(name='open', help='open current site on browser')
