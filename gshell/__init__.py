@@ -64,12 +64,14 @@ def get_name_by_id(id):
 
 
 @cli.command(name='upload', help='upload file')
-@click.argument('filename', required=True, type=click.Path(exists=True))
-def cmd_upload(filename):
+@click.argument('filenames', required=True,
+                type=click.Path(exists=True), nargs=-1)
+def cmd_upload(filenames):
     cwd = getcwd()
-    cmd = '{exe} upload --file {file} --parent {pid}'.format(
-        exe=DRIVE_EXE, file=filename, pid=cwd['id'])
-    subprocess.call(cmd, shell=True)
+    for fname in filenames:
+        cmd = '{exe} upload --file {file} --parent {pid}'.format(
+            exe=DRIVE_EXE, file=fname, pid=cwd['id'])
+        subprocess.call(cmd, shell=True)
 
 
 @cli.command(name='download', help='download file')
