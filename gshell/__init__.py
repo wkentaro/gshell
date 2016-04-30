@@ -229,6 +229,19 @@ def cmd_share(filename):
     subprocess.call(cmd, shell=True)
 
 
+@cli.command(name='info', help='show file information')
+@click.argument('filename', required=True)
+@click.option('--with-id', default=False, is_flag=True,
+              help='change directory with folder id')
+def cmd_info(filename, with_id):
+    if with_id:
+        id = filename
+    else:
+        id = get_id_by_name(name=filename)
+    cmd = '{exe} info --id {id}'.format(exe=DRIVE_EXE, id=id)
+    subprocess.call(cmd, shell=True)
+
+
 def main():
     init()
     cli()
