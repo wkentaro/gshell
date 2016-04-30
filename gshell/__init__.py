@@ -128,9 +128,14 @@ def cmd_mkdir(dirname):
 
 
 @cli.command(name='pwd', help='print current working directory')
-def cmd_pwd():
+@click.option('--with-id', default=False, is_flag=True,
+              help='show current directory id')
+def cmd_pwd(with_id):
     cwd = getcwd()
     id = cwd['id']
+    if with_id:
+        print(id)
+        return
     pwd = deque()
     while id is not None:
         if id == cwd['home_id']:
