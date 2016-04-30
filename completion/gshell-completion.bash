@@ -13,12 +13,12 @@ _gshell()
 
     if [ ${COMP_CWORD} -eq 1 ]; then
       if [[ ${opts} = "" ]]; then
-        opts="ls ll pwd cd rm download mkdir upload share"
+        opts="ls ll pwd cd rm download mkdir upload share info"
       fi
     fi
 
     case "$prev" in
-      cd|rm|download|share)
+      cd|rm|download|share|info)
         opts=$(gshell ls)
         ;;
       upload)
