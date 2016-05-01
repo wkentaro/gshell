@@ -20,9 +20,9 @@ __version__ = pkg_resources.get_distribution('gshell').version
 this_dir = os.path.dirname(os.path.abspath(os.path.realpath(__file__)))
 CONFIG_FILE = os.path.expanduser('~/.gshell')
 if platform.uname()[0] == 'Linux':
-    DRIVE_EXE = '_gshell_drive-linux-x64'
+    DRIVE_EXE = os.path.join(this_dir, 'bin/_gshell_drive-linux-x64')
 elif platform.uname()[0] == 'Darwin':
-    DRIVE_EXE = '_gshell_drive-osx-x64'
+    DRIVE_EXE = os.path.join(this_dir, 'bin/_gshell_drive-osx-x64')
 else:
     sys.stderr.write('Not supported os\n')
     sys.exit(1)

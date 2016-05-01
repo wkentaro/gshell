@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
+
 from __future__ import print_function
 import os
 import sys
@@ -61,6 +60,7 @@ setup(
     name='gshell',
     version=version,
     packages=find_packages(),
+    package_data={'gshell': ['bin/_gshell_drive-*']},
     description='Tool to handle google drive as shell',
     long_description=open('README.rst').read(),
     author='Kentaro Wada',
@@ -77,7 +77,5 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         ],
     entry_points={'console_scripts': ['gshell=gshell:main']},
-    scripts=['gshell/bin/_gshell_drive-linux-x64',
-             'gshell/bin/_gshell_drive-osx-x64'],
     data_files=get_data_files(),
 )
