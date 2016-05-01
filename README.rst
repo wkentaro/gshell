@@ -1,12 +1,17 @@
-======
 gshell
 ======
+
+.. image:: https://travis-ci.org/wkentaro/gshell.svg?branch=master
+    :target: https://travis-ci.org/wkentaro/gshell
+.. image:: https://badge.fury.io/py/gshell.svg
+    :target: https://badge.fury.io/py/gshell
+
 
 Navigate in Google Drive like doing on shell.
 
 
 Screencast
-==========
+----------
 
 .. image:: images/gshell_youtube.png
    :width: 40%
@@ -14,7 +19,7 @@ Screencast
 
 
 Install
-=======
+-------
 
 .. code-block:: bash
 
@@ -22,7 +27,7 @@ Install
 
 
 Commands
-========
+--------
 
 .. code-block:: bash
 
@@ -45,7 +50,8 @@ Commands
 
 
 License
-=======
+-------
+
 | Copyright (C) 2015 Kentaro Wada
 | Released under the MIT license
 | http://opensource.org/licenses/mit-license.php
