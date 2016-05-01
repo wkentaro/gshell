@@ -20,9 +20,9 @@ __version__ = pkg_resources.get_distribution('gshell').version
 this_dir = os.path.dirname(os.path.abspath(os.path.realpath(__file__)))
 CONFIG_FILE = os.path.expanduser('~/.gshell')
 if platform.uname()[0] == 'Linux':
-    DRIVE_EXE = '_gshell_drive-linux-x64'
+    DRIVE_EXE = os.path.join(this_dir, 'bin/_gshell_drive-linux-x64')
 elif platform.uname()[0] == 'Darwin':
-    DRIVE_EXE = '_gshell_drive-osx-x64'
+    DRIVE_EXE = os.path.join(this_dir, 'bin/_gshell_drive-osx-x64')
 else:
     sys.stderr.write('Not supported os\n')
     sys.exit(1)
@@ -108,7 +108,7 @@ def cmd_ls(path):
         id = get_id_by_path(path)
     cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
         exe=DRIVE_EXE, pid=id)
-    stdout = subprocess.check_output(cmd, shell=True)
+    stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     lines = stdout.splitlines()
     header = lines[0]
     start = re.search('Title', header).start()
@@ -168,7 +168,7 @@ def get_id_by_name(name, cwd=None):
     cwd = cwd or getcwd()
     cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
         exe=DRIVE_EXE, pid=cwd['id'])
-    stdout = subprocess.check_output(cmd, shell=True)
+    stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     lines = stdout.splitlines()
     header = lines[0]
     start = re.search('Title', header).start()
@@ -183,7 +183,7 @@ def get_id_by_name(name, cwd=None):
 
 def get_parent_id(id):
     cmd = '{exe} info --id {id}'.format(exe=DRIVE_EXE, id=id)
-    stdout = subprocess.check_output(cmd, shell=True)
+    stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     for l in stdout.splitlines():
         if l.startswith('Parents: '):
             return l.split()[-1]
