@@ -32,6 +32,7 @@ else:
 @click.group()
 @click.version_option(__version__, '-V', '--version')
 def cli():
+    init()
     pass
 
 
@@ -243,7 +244,6 @@ def cmd_info(filename, with_id):
 
 
 def main():
-    init()
     cli()
 
 
