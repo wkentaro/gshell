@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
+from __future__ import print_function
 
 from collections import deque
 import multiprocessing
@@ -77,12 +78,13 @@ def cmd_upload(filenames):
     pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
     commands = []
     for fname in filenames:
-        print("INFO: uploading '{}'...".format(fname))
+        print("Uploading '{}' ...".format(fname))
         cmd = '{exe} upload --file {file} --parent {pid}'.format(
             exe=DRIVE_EXE, file=fname, pid=cwd['id'])
         commands.append(cmd)
 
-    pool.map(_subprocess_call, commands)
+    # http://stackoverflow.com/a/1408476
+    pool.map_async(_subprocess_call, commands).get(9999999)
 
 
 @cli.command(name='download', help='download file')
