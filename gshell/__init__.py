@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from collections import deque
+import multiprocessing
 import os
 import pkg_resources
 import platform
@@ -69,10 +70,17 @@ def get_name_by_id(id):
                 type=click.Path(exists=True), nargs=-1)
 def cmd_upload(filenames):
     cwd = getcwd()
+    pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
+    commands = []
     for fname in filenames:
         cmd = '{exe} upload --file {file} --parent {pid}'.format(
             exe=DRIVE_EXE, file=fname, pid=cwd['id'])
-        subprocess.call(cmd, shell=True)
+        commands.append({
+            'args': cmd,
+            'shell': True,
+        })
+
+    pool.map(subprocess.call, commands)
 
 
 @cli.command(name='download', help='download file')
