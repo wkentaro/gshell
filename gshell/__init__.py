@@ -39,14 +39,28 @@ def cli():
 
 
 def init():
-    if not os.path.exists(os.path.expanduser('~/.gdrive/token.json')):
-        subprocess.call(DRIVE_EXE, shell=True)
+    if not os.path.exists(os.path.expanduser('~/.gdrive/token_v2.json')):
+        subprocess.call('{} list --query "trashed = false"'
+                        .format(DRIVE_EXE), shell=True)
     if not os.path.exists(CONFIG_FILE):
         init_config()
 
 
+def _get_home_id():
+    cmd = '{exe} list'.format(exe=DRIVE_EXE)
+    stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
+    lines = stdout.splitlines()
+    header = lines[0]
+    start = re.search('Id', header).start()
+    end = re.search('Name', header).start()
+    id = lines[1][start:end].strip()
+    while id is not None:
+        id = get_parent_id(id)
+    return id
+
+
 def init_config():
-    home_id = raw_input('Please specify home directory id: ')
+    home_id = _get_home_id()
     config = {'home_id': home_id, 'id': home_id}
     yaml.dump(config, open(CONFIG_FILE, 'w'), default_flow_style=False)
     return config
@@ -59,10 +73,10 @@ def getcwd():
 
 
 def get_name_by_id(id):
-    cmd = '{exe} info --id {id}'.format(exe=DRIVE_EXE, id=id)
+    cmd = '{exe} info {id}'.format(exe=DRIVE_EXE, id=id)
     stdout = subprocess.check_output(cmd, shell=True)
     for l in stdout.splitlines():
-        if l.startswith('Title: '):
+        if l.startswith('Name: '):
             return l.split()[-1]
 
 
@@ -78,8 +92,7 @@ def cmd_upload(filenames):
     pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
     commands = []
     for fname in filenames:
-        print("Uploading '{}' ...".format(fname))
-        cmd = '{exe} upload --file {file} --parent {pid}'.format(
+        cmd = '{exe} upload {file} --parent {pid}'.format(
             exe=DRIVE_EXE, file=fname, pid=cwd['id'])
         commands.append(cmd)
 
@@ -97,17 +110,23 @@ def cmd_download(filename):
 
 @cli.command(name='rm', help='remove file')
 @click.argument('filename', required=True)
-def cmd_rm(filename):
+@click.option('-r', '--recursive', is_flag=True,
+              help='remove files recursively')
+def cmd_rm(filename, recursive):
     id = get_id_by_name(filename)
-    cmd = '{exe} delete --id {id}'.format(exe=DRIVE_EXE, id=id)
+    cmd = '{exe} delete'
+    if recursive:
+        cmd += ' --recursive'
+    cmd += ' {id}'
+    cmd = cmd.format(exe=DRIVE_EXE, id=id)
     subprocess.call(cmd, shell=True)
 
 
 @cli.command(name='ll', help='list files in detail')
 def cmd_ll():
     cwd = getcwd()
-    cmd = '''{exe} list --query " '{pid}' in parents" --noheader'''.format(
-        exe=DRIVE_EXE, pid=cwd['id'])
+    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents"'''\
+        .format(exe=DRIVE_EXE, pid=cwd['id'])
     subprocess.call(cmd, shell=True)
 
 
@@ -119,13 +138,13 @@ def cmd_ls(path):
         id = cwd['id']
     else:
         id = get_id_by_path(path)
-    cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
-        exe=DRIVE_EXE, pid=id)
+    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents"'''\
+        .format(exe=DRIVE_EXE, pid=id)
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     lines = stdout.splitlines()
     header = lines[0]
-    start = re.search('Title', header).start()
-    end = re.search('Size', header).start()
+    start = re.search('Name', header).start()
+    end = re.search('Type', header).start()
     path = '' if path is None else path
     print('\n'.join(os.path.join(path, l[start:end].strip())
                     for l in stdout.splitlines()[1:]))
@@ -141,12 +160,12 @@ def cmd_mkdir(dirname):
 
 
 @cli.command(name='pwd', help='print current working directory')
-@click.option('--with-id', default=False, is_flag=True,
+@click.option('--show-id', default=False, is_flag=True,
               help='show current directory id')
-def cmd_pwd(with_id):
+def cmd_pwd(show_id):
     cwd = getcwd()
     id = cwd['id']
-    if with_id:
+    if show_id:
         print(id)
         return
     pwd = deque()
@@ -179,13 +198,13 @@ def get_id_by_path(path):
 
 def get_id_by_name(name, cwd=None):
     cwd = cwd or getcwd()
-    cmd = '''{exe} list --query " '{pid}' in parents"'''.format(
-        exe=DRIVE_EXE, pid=cwd['id'])
+    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents"'''\
+        .format(exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     lines = stdout.splitlines()
     header = lines[0]
-    start = re.search('Title', header).start()
-    end = re.search('Size', header).start()
+    start = re.search('Name', header).start()
+    end = re.search('Type', header).start()
     for l in stdout.splitlines()[1:]:
         id, title = l[:start].strip(), l[start:end].strip()
         if len(name) > 40:
@@ -195,7 +214,7 @@ def get_id_by_name(name, cwd=None):
 
 
 def get_parent_id(id):
-    cmd = '{exe} info --id {id}'.format(exe=DRIVE_EXE, id=id)
+    cmd = '{exe} info {id}'.format(exe=DRIVE_EXE, id=id)
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     for l in stdout.splitlines():
         if l.startswith('Parents: '):
@@ -238,7 +257,7 @@ def cmd_open():
 @click.argument('filename', required=True)
 def cmd_share(filename):
     id = get_id_by_name(name=filename)
-    cmd = '{exe} share --id {id}'.format(exe=DRIVE_EXE, id=id)
+    cmd = '{exe} share {id}'.format(exe=DRIVE_EXE, id=id)
     subprocess.call(cmd, shell=True)
 
 
@@ -251,7 +270,7 @@ def cmd_info(filename, with_id):
         id = filename
     else:
         id = get_id_by_name(name=filename)
-    cmd = '{exe} info --id {id}'.format(exe=DRIVE_EXE, id=id)
+    cmd = '{exe} info {id}'.format(exe=DRIVE_EXE, id=id)
     subprocess.call(cmd, shell=True)
 
 
