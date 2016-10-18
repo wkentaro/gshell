@@ -77,6 +77,7 @@ def cmd_upload(filenames):
     pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
     commands = []
     for fname in filenames:
+        print("INFO: uploading '{}'...".format(fname))
         cmd = '{exe} upload --file {file} --parent {pid}'.format(
             exe=DRIVE_EXE, file=fname, pid=cwd['id'])
         commands.append(cmd)
