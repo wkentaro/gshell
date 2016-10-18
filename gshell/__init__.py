@@ -65,6 +65,10 @@ def get_name_by_id(id):
             return l.split()[-1]
 
 
+def _subprocess_call(cmd)
+    subprocess.call(cmd, shell=True)
+
+
 @cli.command(name='upload', help='upload file')
 @click.argument('filenames', required=True,
                 type=click.Path(exists=True), nargs=-1)
@@ -75,12 +79,9 @@ def cmd_upload(filenames):
     for fname in filenames:
         cmd = '{exe} upload --file {file} --parent {pid}'.format(
             exe=DRIVE_EXE, file=fname, pid=cwd['id'])
-        commands.append({
-            'args': cmd,
-            'shell': True,
-        })
+        commands.append(cmd)
 
-    pool.map(subprocess.call, commands)
+    pool.map(_subprocess_call, commands)
 
 
 @cli.command(name='download', help='download file')
