@@ -65,7 +65,7 @@ def get_name_by_id(id):
             return l.split()[-1]
 
 
-def _subprocess_call(cmd)
+def _subprocess_call(cmd):
     subprocess.call(cmd, shell=True)
 
 
