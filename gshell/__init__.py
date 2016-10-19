@@ -52,10 +52,11 @@ def _get_home_id():
     header = lines[0]
     start = re.search('Id', header).start()
     end = re.search('Name', header).start()
-    id = lines[1][start:end].strip()
-    while id is not None:
-        id = get_parent_id(id)
-    return id
+    parent_id = lines[1][start:end].strip()
+    while parent_id is not None:
+        child_id = parent_id
+        parent_id = get_parent_id(child_id)
+    return child_id
 
 
 def init_config():
