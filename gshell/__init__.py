@@ -83,12 +83,16 @@ def get_name_by_id(id):
 @cli.command(name='upload', help='upload file')
 @click.argument('filenames', required=True,
                 type=click.Path(exists=True), nargs=-1)
-def cmd_upload(filenames):
+@click.option('-r', '--recursive', is_flag=True,
+              help='remove files recursively')
+def cmd_upload(filenames, recursive):
     cwd = getcwd()
     commands = []
     for fname in filenames:
         cmd = '{exe} upload {file} --parent {pid}'.format(
             exe=DRIVE_EXE, file=fname, pid=cwd['id'])
+        if recursive:
+            cmd += ' --recursive'
         subprocess.call(cmd, shell=True)
 
 
