@@ -150,7 +150,7 @@ def cmd_ls(path):
 @click.argument('dirname', required=True)
 def cmd_mkdir(dirname):
     cwd = getcwd()
-    cmd = '{exe} folder --title {name} --parent {pid}'.format(
+    cmd = '{exe} mkdir {name} --parent {pid}'.format(
         exe=DRIVE_EXE, name=dirname, pid=cwd['id'])
     subprocess.call(cmd, shell=True)
 
