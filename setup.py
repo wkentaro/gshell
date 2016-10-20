@@ -9,7 +9,7 @@ import platform
 from setuptools import setup, find_packages
 
 
-version = '4.1.2'
+version = '4.1.3'
 
 
 def get_data_files():
