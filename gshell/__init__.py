@@ -39,8 +39,7 @@ def cli():
 
 def init():
     if not os.path.exists(os.path.expanduser('~/.gdrive/token_v2.json')):
-        subprocess.call('{} list --query "trashed = false"'
-                        .format(DRIVE_EXE), shell=True)
+        subprocess.call('{} about'.format(DRIVE_EXE), shell=True)
     if not os.path.exists(CONFIG_FILE):
         init_config()
 
@@ -78,6 +77,12 @@ def get_name_by_id(id):
     for l in stdout.splitlines():
         if l.startswith('Name: '):
             return l.split()[-1]
+
+
+@cli.command(name='about', help='show account status')
+def cmd_about():
+    cmd = '{exe} about'.format(exe=DRIVE_EXE)
+    subprocess.call(cmd, shell=True)
 
 
 @cli.command(name='upload', help='upload file')
