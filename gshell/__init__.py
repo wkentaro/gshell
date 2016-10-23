@@ -79,6 +79,11 @@ def get_name_by_id(id):
             return l.split()[-1]
 
 
+@cli.command(name='init', help='initialize gshell')
+def cmd_init():
+    pass
+
+
 @cli.command(name='about', help='show account status')
 def cmd_about():
     cmd = '{exe} about'.format(exe=DRIVE_EXE)
