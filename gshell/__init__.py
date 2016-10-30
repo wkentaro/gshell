@@ -94,7 +94,7 @@ def cmd_about():
 @click.argument('filenames', required=True,
                 type=click.Path(exists=True), nargs=-1)
 @click.option('-r', '--recursive', is_flag=True,
-              help='remove files recursively')
+              help='upload files recursively')
 def cmd_upload(filenames, recursive):
     cwd = getcwd()
     commands = []
@@ -108,9 +108,13 @@ def cmd_upload(filenames, recursive):
 
 @cli.command(name='download', help='download file')
 @click.argument('filename', required=True)
-def cmd_download(filename):
+@click.option('-r', '--recursive', is_flag=True,
+            help='download directory recursively')
+def cmd_download(filename, recursive):
     id = get_id_by_name(filename)
-    cmd = '{exe} download --id {id}'.format(exe=DRIVE_EXE, id=id)
+    cmd = '{exe} download {id}'.format(exe=DRIVE_EXE, id=id)
+    if recursive:
+        cmd += ' --recursive'
     subprocess.call(cmd, shell=True)
 
 
