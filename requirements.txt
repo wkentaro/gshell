@@ -1,3 +1,2 @@
-click==6.2
-PyYAML==3.11
-wheel==0.24.0
+click
+PyYAML
