@@ -178,14 +178,18 @@ def cmd_pwd(show_id):
     if show_id:
         print(id)
         return
-    pwd = deque()
-    while id is not None:
-        if id == cwd['home_id']:
-            pwd.appendleft('~')
-            break
-        pwd.appendleft(get_name_by_id(id))
-        id = get_parent_id(id)
-    print(os.path.join(*pwd))
+    if cwd['id'] == cwd['home_id']:
+        print('~')
+        return
+    cmd = '{exe} info {id}'.format(exe=DRIVE_EXE, id=id)
+    stdout = subprocess.check_output(cmd, shell=True).strip()
+    for line in stdout.splitlines():
+        if not line.startswith('Path: '):
+            continue
+        path = line[len('Path: '):]
+        pwd = os.path.join('~', path)
+        print(pwd)
+        return
 
 
 def get_id_by_path(path):
