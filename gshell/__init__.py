@@ -135,7 +135,7 @@ def cmd_rm(filename, recursive):
 @cli.command(name='ll', help='list files in detail')
 def cmd_ll():
     cwd = getcwd()
-    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents"'''\
+    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents" --max 100'''\
         .format(exe=DRIVE_EXE, pid=cwd['id'])
     subprocess.call(cmd, shell=True)
 
@@ -148,7 +148,7 @@ def cmd_ls(path):
         id = cwd['id']
     else:
         id = get_id_by_path(path)
-    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents"'''\
+    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents" --max 100'''\
         .format(exe=DRIVE_EXE, pid=id)
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     lines = stdout.splitlines()
@@ -208,7 +208,7 @@ def get_id_by_path(path):
 
 def get_id_by_name(name, cwd=None):
     cwd = cwd or getcwd()
-    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents"'''\
+    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents" --max 100'''\
         .format(exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     lines = stdout.splitlines()
