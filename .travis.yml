@@ -8,7 +8,12 @@ python:
 - pypy
 
 install:
-- python setup.py install
+- pip install -U pip setuptools
+- pip install flake8 hacking
+
+before_script:
+- flake8
 
 script:
+- python setup.py install
 - gshell --help
