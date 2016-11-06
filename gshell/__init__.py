@@ -2,7 +2,6 @@
 
 from __future__ import print_function
 
-from collections import deque
 import os
 import pkg_resources
 import platform
@@ -27,7 +26,6 @@ elif platform.uname()[0] == 'Darwin':
 else:
     sys.stderr.write('Not supported os\n')
     sys.exit(1)
-
 
 
 @click.group()
@@ -97,7 +95,6 @@ def cmd_about():
               help='upload files recursively')
 def cmd_upload(filenames, recursive):
     cwd = getcwd()
-    commands = []
     for fname in filenames:
         cmd = '{exe} upload {file} --parent {pid}'.format(
             exe=DRIVE_EXE, file=fname, pid=cwd['id'])
@@ -109,7 +106,7 @@ def cmd_upload(filenames, recursive):
 @cli.command(name='download', help='download file')
 @click.argument('filename', required=True)
 @click.option('-r', '--recursive', is_flag=True,
-            help='download directory recursively')
+              help='download directory recursively')
 def cmd_download(filename, recursive):
     id = get_id_by_name(filename)
     cmd = '{exe} download {id}'.format(exe=DRIVE_EXE, id=id)
@@ -135,8 +132,9 @@ def cmd_rm(filename, recursive):
 @cli.command(name='ll', help='list files in detail')
 def cmd_ll():
     cwd = getcwd()
-    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents" --max 100'''\
-        .format(exe=DRIVE_EXE, pid=cwd['id'])
+    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents"'''
+    cmd += ' --max 100 --name-width 0'
+    cmd = cmd.format(exe=DRIVE_EXE, pid=cwd['id'])
     subprocess.call(cmd, shell=True)
 
 
@@ -148,8 +146,9 @@ def cmd_ls(path):
         id = cwd['id']
     else:
         id = get_id_by_path(path)
-    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents" --max 100'''\
-        .format(exe=DRIVE_EXE, pid=id)
+    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents"'''
+    cmd += ' --max 100 --name-width 0'
+    cmd = cmd.format(exe=DRIVE_EXE, pid=id)
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     lines = stdout.splitlines()
     header = lines[0]
@@ -203,17 +202,17 @@ def get_id_by_path(path):
             id = get_id_by_name(d, cwd=cwd)
             if id is None:
                 sys.stderr.write('directory {name} does not exist\n'
-                                .format(name=d))
+                                 .format(name=d))
                 sys.exit(1)
         cwd['id'] = id
     return cwd['id']
 
 
-
 def get_id_by_name(name, cwd=None):
     cwd = cwd or getcwd()
-    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents" --max 100'''\
-        .format(exe=DRIVE_EXE, pid=cwd['id'])
+    cmd = '''{exe} list --query "trashed = false and '{pid}' in parents"'''
+    cmd += ' --max 100 --name-width 0'
+    cmd = cmd.format(exe=DRIVE_EXE, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
     lines = stdout.splitlines()
     header = lines[0]

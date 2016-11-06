@@ -2,11 +2,12 @@
 
 from __future__ import print_function
 import os
-import sys
-import imp
-import subprocess
 import platform
-from setuptools import setup, find_packages
+import subprocess
+import sys
+
+from setuptools import find_packages
+from setuptools import setup
 
 
 version = '4.6.0'
@@ -53,7 +54,7 @@ if sys.argv[-1] == 'publish':
             'git tag {}'.format(version),
             'git push origin master --tag',
             'python setup.py sdist upload -r pypi',
-        ]:
+            ]:
         subprocess.check_call(cmd, shell=True)
     sys.exit(0)
 
