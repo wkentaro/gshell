@@ -107,8 +107,13 @@ def cmd_upload(filenames, recursive):
 @click.argument('filename', required=True)
 @click.option('-r', '--recursive', is_flag=True,
               help='download directory recursively')
-def cmd_download(filename, recursive):
-    id = get_id_by_name(filename)
+@click.option('--with-id', default=False, is_flag=True,
+              help='change directory with folder id')
+def cmd_download(filename, recursive, with_id):
+    if with_id:
+        id = filename
+    else:
+        id = get_id_by_name(filename)
     cmd = '{exe} download {id}'.format(exe=DRIVE_EXE, id=id)
     if recursive:
         cmd += ' --recursive'
