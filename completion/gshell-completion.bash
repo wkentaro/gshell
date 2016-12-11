@@ -13,7 +13,7 @@ _gshell()
 
     if [ ${COMP_CWORD} -eq 1 ]; then
       if [[ ${opts} = "" ]]; then
-        opts="about cd download info init ll ls mkdir open pwd rm share upload"
+        opts="about cd download info init ll ls mkdir open pwd rm share switch upload"
       fi
     fi
 
