@@ -7,7 +7,7 @@ gshell
     :target: https://badge.fury.io/py/gshell
 
 
-Navigate in Google Drive like doing on shell.
+Navigate in Google Drive like you do so on shell.
 
 
 Screencast
@@ -34,11 +34,15 @@ Commands
   Usage: gshell [OPTIONS] COMMAND [ARGS]...
 
   Options:
-    --help  Show this message and exit.
+    -V, --version  Show the version and exit.
+    --help         Show this message and exit.
 
   Commands:
+    about     show account status
     cd        change directory
     download  download file
+    info      show file information
+    init      initialize gshell
     ll        list files in detail
     ls        list files
     mkdir     make directory
@@ -46,12 +50,13 @@ Commands
     pwd       print current working directory
     rm        remove file
     share     share file
+    switch    switch user
     upload    upload file
 
 
 License
 -------
 
-| Copyright (C) 2015 Kentaro Wada
+| Copyright (C) 2015-2016 Kentaro Wada
 | Released under the MIT license
 | http://opensource.org/licenses/mit-license.php
