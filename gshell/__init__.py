@@ -9,10 +9,10 @@ import platform
 import re
 import subprocess
 import sys
-from termcolor import cprint
-import yaml
 
 import click
+from termcolor import cprint
+import yaml
 
 
 __author__ = 'Kentaro Wada <www.kentaro.wada@gmail.com>'
