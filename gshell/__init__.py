@@ -56,10 +56,14 @@ def init(name='system'):
 
 
 def _get_current_config_dir():
-    config = yaml.load(open(CONFIG_FILE))
-    name = config.get('name', 'system')
+    default_config_dir = osp.expanduser('~/.gdrive')
+    if osp.exists(CONFIG_FILE):
+        config = yaml.load(open(CONFIG_FILE))
+        name = config.get('name', 'system')
+    else:
+        name = 'system'
     if name == 'system':
-        config_dir = osp.expanduser('~/.gdrive')
+        config_dir = default_config_dir
     else:
         config_dir = osp.join(osp.expanduser('~/.gshell_configs'), name)
     if not osp.exists(osp.join(config_dir, 'token_v2.json')):
