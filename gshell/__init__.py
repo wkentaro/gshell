@@ -307,8 +307,6 @@ def get_id_by_name(name, cwd=None):
     end = re.search('Type', header).start()
     for l in stdout.splitlines()[1:]:
         id, title = l[:start].strip(), l[start:end].strip()
-        if len(name) > 40:
-            name = name[:19] + '...' + name[-18:]
         if name == title:
             return id
 
