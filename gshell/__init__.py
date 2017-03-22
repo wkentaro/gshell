@@ -90,7 +90,7 @@ def _get_home_id():
 def init_config(name='system'):
     home_id = _get_home_id()
     config = {'home_id': home_id, 'id': home_id, 'name': name}
-    yaml.dump(config, open(CONFIG_FILE, 'w'), default_flow_style=False)
+    yaml.safe_dump(config, open(CONFIG_FILE, 'w'), default_flow_style=False)
     return config
 
 
