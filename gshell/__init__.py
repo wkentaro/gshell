@@ -138,7 +138,8 @@ def cmd_switch(name):
         if name == 'system' or osp.exists(config_dir):
             config = yaml.load(open(CONFIG_FILE, 'r'))
             config['name'] = name
-            yaml.dump(config, open(CONFIG_FILE, 'w'), default_flow_style=True)
+            yaml.safe_dump(config, open(CONFIG_FILE, 'w'),
+                           default_flow_style=True)
             init_config(name)
             cprint('Switched to {name} ({config}).'
                    .format(name=name, config=config_dir),
@@ -335,7 +336,7 @@ def cmd_cd(dirname, with_id):
         cwd['id'] = cwd['home_id']
     else:
         cwd['id'] = get_id_by_path(dirname)
-    yaml.dump(cwd, open(CONFIG_FILE, 'w'), default_flow_style=False)
+    yaml.safe_dump(cwd, open(CONFIG_FILE, 'w'), default_flow_style=False)
 
 
 @cli.command(name='open', help='open current site on browser')
