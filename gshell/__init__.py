@@ -367,7 +367,6 @@ def cmd_open():
 @click.option('--discoverable', is_flag=True, help='flag for searchablity')
 # FIXME: --revoke does not work at current
 # @click.option('--revoke', is_flag=True, help='flag to revoke access')
-#                                       removed revoke from cdm_share
 def cmd_share(filename, role, type, email, domain, discoverable):
     if type in ['user', 'group'] and email is None:
         print('--email is required for user or group type.')
