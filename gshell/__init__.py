@@ -30,7 +30,7 @@ else:
     sys.exit(1)
 
 
-@click.group()
+@click.group(context_settings={'help_option_names': ['-h', '--help']})
 @click.version_option(__version__, '-V', '--version')
 def cli():
     pass
@@ -356,11 +356,41 @@ def cmd_open():
 
 @cli.command(name='share', help='share file')
 @click.argument('filename', required=True)
-def cmd_share(filename):
+@click.option('--role', default='reader',
+              type=click.Choice(['owner', 'writer', 'commenter', 'reader']),
+              show_default=True)
+@click.option('--type', default='anyone',
+              type=click.Choice(['user', 'group', 'domain', 'anyone']),
+              show_default=True)
+@click.option('--email', help='email address for user or group type')
+@click.option('--domain', help='domain for domain type')
+@click.option('--discoverable', is_flag=True, help='flag for searchablity')
+# FIXME: --revoke does not work at current
+# @click.option('--revoke', is_flag=True, help='flag to revoke access')
+def cmd_share(filename, role, type, email, domain, discoverable, revoke):
+    if type in ['user', 'group'] and email is None:
+        print('--email is required for user or group type.')
+        sys.exit(1)
+    elif type == 'domain' and domain is None:
+        print('--domain is required for domain type.')
+        sys.exit(1)
     config_dir = _get_current_config_dir()
     id = get_id_by_name(name=filename)
-    cmd = '{exe} --config {config} share {id}'.format(
-        exe=DRIVE_EXE, config=config_dir, id=id)
+    cmd = '{exe} --config {config} share'.format(
+        exe=DRIVE_EXE, config=config_dir)
+    if role:
+        cmd += ' --role {role}'.format(role=role)
+    if type:
+        cmd += ' --type {type}'.format(type=type)
+    if email:
+        cmd += ' --email {email}'.format(email=email)
+    if domain:
+        cmd += ' --domain {domain}'.format(domain=domain)
+    if discoverable:
+        cmd += ' --discoverable'
+    # if revoke:
+    #     cmd += ' --revoke'
+    cmd += ' {id}'.format(id=id)
     subprocess.call(cmd, shell=True)
 
 
