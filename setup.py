@@ -10,7 +10,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '5.1.0'
+version = '5.1.1'
 
 
 def get_data_files():
