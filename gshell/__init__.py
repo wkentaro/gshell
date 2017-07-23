@@ -262,7 +262,7 @@ def cmd_pwd(show_id):
         print(id)
         return
     if cwd['id'] == cwd['home_id']:
-        print('~')
+        print('/')
         return
     config_dir = _get_current_config_dir()
     cmd = '{exe} --config {config} info {id}'.format(
@@ -272,13 +272,15 @@ def cmd_pwd(show_id):
         if not line.startswith('Path: '):
             continue
         path = line[len('Path: '):]
-        pwd = osp.join('~', path)
+        pwd = osp.join('/', path)
         print(pwd)
         return
 
 
 def get_id_by_path(path):
     cwd = getcwd()
+    if path.startswith('/'):
+        cwd['id'] = cwd['home_id']
     for d in path.split('/'):
         if not d:
             continue
