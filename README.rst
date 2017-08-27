@@ -1,8 +1,8 @@
 gshell
 ======
 
-.. image:: https://badge.fury.io/py/gshell.svg
-    :target: https://badge.fury.io/py/gshell
+.. image:: https://img.shields.io/pypi/v/gshell.svg
+    :target: https://pypi.python.org/pypi/gshell
 .. image:: https://travis-ci.org/wkentaro/gshell.svg?branch=master
     :target: https://travis-ci.org/wkentaro/gshell
 
