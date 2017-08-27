@@ -1,10 +1,10 @@
 gshell
 ======
 
-.. image:: https://travis-ci.org/wkentaro/gshell.svg?branch=master
-    :target: https://travis-ci.org/wkentaro/gshell
 .. image:: https://badge.fury.io/py/gshell.svg
     :target: https://badge.fury.io/py/gshell
+.. image:: https://travis-ci.org/wkentaro/gshell.svg?branch=master
+    :target: https://travis-ci.org/wkentaro/gshell
 
 
 Navigate in Google Drive like you do so on shell.
