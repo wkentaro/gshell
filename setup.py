@@ -50,11 +50,12 @@ def get_data_files():
 
 
 # publish helper
-if sys.argv[-1] == 'publish':
+if sys.argv[-1] == 'release':
     for cmd in [
-            'git tag {}'.format(version),
-            'git push origin master --tag',
-            'python setup.py sdist upload -r pypi',
+            'python setup.py sdist',
+            'twine upload dist/gshell-%s.tar.gz' % version,
+            'git tag %s' % version,
+            'git push origin master --tags',
             ]:
         subprocess.check_call(cmd, shell=True)
     sys.exit(0)
