@@ -19,16 +19,18 @@ _gshell()
 
     case "$prev" in
       cd|rm|download|share|info)
-        opts=$(gshell ls)
+        opts="$(gshell ls 2>/dev/null)"
+        opts="${opts[@]} $(gshell ls $cur 2>/dev/null)"
         ;;
       upload)
         opts=$(command ls)
+        opts="${opts[@]} $(command find $cur -maxdepth 1 2>/dev/null)"
         ;;
     esac
 
     if [[ ${cur} = * ]] ; then
-        COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
         return 0
     fi
 }
-complete -F _gshell gshell
+complete -o nospace -F _gshell gshell
