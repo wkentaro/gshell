@@ -342,7 +342,10 @@ def cmd_cd(dirname, with_id):
 
 
 @cli.command(name='open', help='open current site on browser')
-def cmd_open():
+@click.argument('filename', required=False)
+@click.option('--with-id', default=False, is_flag=True,
+              help='Specify id instead of name.')
+def cmd_open(filename, with_id):
     cwd = getcwd()
     if platform.uname()[0] == 'Linux':
         open_exe = 'gnome-open'
@@ -351,8 +354,12 @@ def cmd_open():
     else:
         sys.stderr.write('Not supported os\n')
         sys.exit(1)
+    if filename is None:
+        file_id = cwd['id']
+    else:
+        file_id = filename if with_id else get_id_by_name(filename)
     cmd = "{exe} 'https://drive.google.com/drive/u/1/folders/{id}'"\
-        .format(exe=open_exe, id=cwd['id'])
+        .format(exe=open_exe, id=file_id)
     subprocess.call(cmd, shell=True)
 
 
