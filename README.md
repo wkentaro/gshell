@@ -1,33 +1,24 @@
-gshell
-======
+# gshell
 
-.. image:: https://img.shields.io/pypi/v/gshell.svg
-    :target: https://pypi.python.org/pypi/gshell
-.. image:: https://travis-ci.org/wkentaro/gshell.svg?branch=master
-    :target: https://travis-ci.org/wkentaro/gshell
-
+[![](https://img.shields.io/pypi/v/gshell.svg)](https://pypi.python.org/pypi/gshell)
+[![](https://travis-ci.org/wkentaro/gshell.svg?branch=master)](https://travis-ci.org/wkentaro/gshell)
 
 Navigate in Google Drive like you do so on shell.
 
 
-Screencast
-----------
+## Screencast
 
-.. image:: images/gshell_youtube.png
-   :width: 40%
-   :target: https://www.youtube.com/watch?v=eDRTj_Hy2k4
+<a href="https://www.youtube.com/watch?v=eDRTj_Hy2k4" width="40%" />
 
 
-Install
--------
+## Install
 
 .. code-block:: bash
 
   pip install gshell
 
 
-Commands
---------
+## Commands
 
 .. code-block:: bash
 
@@ -54,9 +45,8 @@ Commands
     upload    upload file
 
 
-License
--------
+## License
 
-| Copyright (C) 2015-2016 Kentaro Wada
+| Copyright (C) 2015-2015 Kentaro Wada
 | Released under the MIT license
 | http://opensource.org/licenses/mit-license.php
