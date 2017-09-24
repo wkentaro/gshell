@@ -8,45 +8,48 @@ Navigate in Google Drive like you do so on shell.
 
 ## Screencast
 
-<a href="https://www.youtube.com/watch?v=eDRTj_Hy2k4" width="40%" />
+<a href="https://www.youtube.com/watch?v=eDRTj_Hy2k4">
+  <img src="images/gshell_youtube.png"  width="40%" />
+</a>
 
 
 ## Install
 
-.. code-block:: bash
+```bash
+pip install gshell
+```
 
-  pip install gshell
 
 
 ## Commands
 
-.. code-block:: bash
+```bash
+Usage: gshell [OPTIONS] COMMAND [ARGS]...
 
-  Usage: gshell [OPTIONS] COMMAND [ARGS]...
+Options:
+  -V, --version  Show the version and exit.
+  --help         Show this message and exit.
 
-  Options:
-    -V, --version  Show the version and exit.
-    --help         Show this message and exit.
-
-  Commands:
-    about     show account status
-    cd        change directory
-    download  download file
-    info      show file information
-    init      initialize gshell
-    ll        list files in detail
-    ls        list files
-    mkdir     make directory
-    open      open current site on browser
-    pwd       print current working directory
-    rm        remove file
-    share     share file
-    switch    switch user
-    upload    upload file
+Commands:
+  about     show account status
+  cd        change directory
+  download  download file
+  info      show file information
+  init      initialize gshell
+  ll        list files in detail
+  ls        list files
+  mkdir     make directory
+  open      open current site on browser
+  pwd       print current working directory
+  rm        remove file
+  share     share file
+  switch    switch user
+  upload    upload file
+```
 
 
 ## License
 
-| Copyright (C) 2015-2015 Kentaro Wada
-| Released under the MIT license
-| http://opensource.org/licenses/mit-license.php
+Copyright (C) 2015-2017 Kentaro Wada  
+Released under the MIT license  
+http://opensource.org/licenses/mit-license.php  
