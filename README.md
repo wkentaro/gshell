@@ -6,7 +6,7 @@
 Navigate in Google Drive like you do so on shell.
 
 
-## Screencast
+**Tutorial Movie**
 
 <a href="https://www.youtube.com/watch?v=eDRTj_Hy2k4">
   <img src="images/gshell_youtube.png"  width="40%" />
