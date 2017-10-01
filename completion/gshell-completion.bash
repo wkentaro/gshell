@@ -18,7 +18,7 @@ _gshell()
     fi
 
     case "$prev" in
-      cd|rm|download|share|info)
+      ls|cd|rm|download|share|info)
         opts="$(gshell ls 2>/dev/null)"
         opts="${opts[@]} $(gshell ls $cur 2>/dev/null)"
         ;;
