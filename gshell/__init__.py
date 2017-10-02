@@ -184,7 +184,7 @@ def cmd_download(filename, recursive, with_id):
     if with_id:
         id = filename
     else:
-        id = get_id_by_name(filename)
+        id = get_id_by_path(filename)
     config_dir = _get_current_config_dir()
     cmd = '{exe} --config {config} download {id}'.format(
         exe=DRIVE_EXE, config=config_dir, id=id)
@@ -199,7 +199,7 @@ def cmd_download(filename, recursive, with_id):
               help='remove files recursively')
 def cmd_rm(filename, recursive):
     config_dir = _get_current_config_dir()
-    id = get_id_by_name(filename)
+    id = get_id_by_path(filename)
     cmd = '{exe} --config {config} delete'.format(
         exe=DRIVE_EXE, config=config_dir)
     if recursive:
@@ -357,7 +357,7 @@ def cmd_open(filename, with_id):
     if filename is None:
         file_id = cwd['id']
     else:
-        file_id = filename if with_id else get_id_by_name(filename)
+        file_id = filename if with_id else get_id_by_path(filename)
     cmd = "{exe} 'https://drive.google.com/drive/u/1/folders/{id}'"\
         .format(exe=open_exe, id=file_id)
     subprocess.call(cmd, shell=True)
@@ -384,7 +384,7 @@ def cmd_share(filename, role, type, email, domain, discoverable):
         print('--domain is required for domain type.')
         sys.exit(1)
     config_dir = _get_current_config_dir()
-    id = get_id_by_name(name=filename)
+    id = get_id_by_path(filename)
     cmd = '{exe} --config {config} share'.format(
         exe=DRIVE_EXE, config=config_dir)
     if role:
@@ -411,7 +411,7 @@ def cmd_info(filename, with_id):
     if with_id:
         id = filename
     else:
-        id = get_id_by_name(name=filename)
+        id = get_id_by_path(filename)
     config_dir = _get_current_config_dir()
     cmd = '{exe} --config {config} info {id}'.format(
         exe=DRIVE_EXE, config=config_dir, id=id)
