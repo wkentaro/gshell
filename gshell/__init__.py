@@ -209,13 +209,18 @@ def cmd_rm(filename, recursive):
 
 
 @cli.command(name='ll', help='list files in detail')
-def cmd_ll():
+@click.argument('path', required=False)
+def cmd_ll(path):
+    if path is None:
+        cwd = getcwd()
+        id = cwd['id']
+    else:
+        id = get_id_by_path(path)
     config_dir = _get_current_config_dir()
-    cwd = getcwd()
     cmd = '{exe} --config {config} list'
     cmd += ''' --query "trashed = false and '{pid}' in parents"'''
     cmd += ' --max 100 --name-width 0'
-    cmd = cmd.format(exe=DRIVE_EXE, config=config_dir, pid=cwd['id'])
+    cmd = cmd.format(exe=DRIVE_EXE, config=config_dir, pid=id)
     subprocess.call(cmd, shell=True)
 
 
