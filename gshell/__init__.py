@@ -162,13 +162,16 @@ def cmd_about():
 @click.argument('filenames', required=True,
                 type=click.Path(exists=True), nargs=-1)
 @click.option('-r', '--recursive', is_flag=True,
-              help='upload files recursively')
-def cmd_upload(filenames, recursive):
+              help='Upload files recursively.')
+@click.option('-p', '--parent', help='Parent dir id of uploaded file.')
+def cmd_upload(filenames, recursive, parent):
     config_dir = _get_current_config_dir()
     cwd = getcwd()
+    if parent is None:
+        parent = cwd['id']
     for fname in filenames:
         cmd = '{exe} --config {config} upload {file} --parent {pid}'.format(
-            exe=DRIVE_EXE, config=config_dir, file=fname, pid=cwd['id'])
+            exe=DRIVE_EXE, config=config_dir, file=fname, pid=parent)
         if recursive:
             cmd += ' --recursive'
         subprocess.call(cmd, shell=True)
