@@ -188,7 +188,7 @@ def cmd_upload(filenames, recursive, parent):
 @click.argument('filename', required=True)
 @click.option('-r', '--recursive', is_flag=True,
               help='download directory recursively')
-@click.option('--with-id', default=False, is_flag=True,
+@click.option('-i', '--with-id', default=False, is_flag=True,
               help='change directory with folder id')
 def cmd_download(filename, recursive, with_id):
     if with_id:
@@ -327,7 +327,7 @@ def get_parent_id(id):
 
 @cli.command(name='cd', help='change directory')
 @click.argument('dirname', required=False)
-@click.option('--with-id', default=False, is_flag=True,
+@click.option('-i', '--with-id', default=False, is_flag=True,
               help='change directory with folder id')
 def cmd_cd(dirname, with_id):
     cwd = getcwd()
@@ -343,7 +343,7 @@ def cmd_cd(dirname, with_id):
 
 @cli.command(name='open', help='open current site on browser')
 @click.argument('filename', required=False)
-@click.option('--with-id', default=False, is_flag=True,
+@click.option('-i', '--with-id', default=False, is_flag=True,
               help='Specify id instead of name.')
 def cmd_open(filename, with_id):
     cwd = getcwd()
@@ -405,7 +405,7 @@ def cmd_share(filename, role, type, email, domain, discoverable):
 
 @cli.command(name='info', help='show file information')
 @click.argument('filename', required=True)
-@click.option('--with-id', default=False, is_flag=True,
+@click.option('-i', '--with-id', default=False, is_flag=True,
               help='change directory with folder id')
 def cmd_info(filename, with_id):
     if with_id:
