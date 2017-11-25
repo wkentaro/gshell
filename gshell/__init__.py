@@ -100,14 +100,21 @@ def getcwd():
     return init_config()
 
 
-def get_name_by_id(id):
+def get_path_by_id(id):
+    cwd = getcwd()
+    if cwd['id'] == cwd['home_id']:
+        return '/'
+
     config_dir = _get_current_config_dir()
     cmd = '{exe} --config {config} info {id}'.format(
         exe=DRIVE_EXE, config=config_dir, id=id)
-    stdout = subprocess.check_output(cmd, shell=True)
-    for l in stdout.splitlines():
-        if l.startswith('Name: '):
-            return l.split()[-1]
+    stdout = subprocess.check_output(cmd, shell=True).strip()
+    for line in stdout.splitlines():
+        if not line.startswith('Path: '):
+            continue
+        path = line[len('Path: '):]
+        path = osp.join('/', path)
+        return path
 
 
 @cli.command(name='init', help='initialize gshell')
@@ -265,24 +272,10 @@ def cmd_mkdir(dirname):
               help='show current directory id')
 def cmd_pwd(show_id):
     cwd = getcwd()
-    id = cwd['id']
     if show_id:
-        print(id)
+        print(cwd['id'])
         return
-    if cwd['id'] == cwd['home_id']:
-        print('/')
-        return
-    config_dir = _get_current_config_dir()
-    cmd = '{exe} --config {config} info {id}'.format(
-        exe=DRIVE_EXE, config=config_dir, id=id)
-    stdout = subprocess.check_output(cmd, shell=True).strip()
-    for line in stdout.splitlines():
-        if not line.startswith('Path: '):
-            continue
-        path = line[len('Path: '):]
-        pwd = osp.join('/', path)
-        print(pwd)
-        return
+    print(get_path_by_id(cwd['id']))
 
 
 def get_id_by_path(path):
@@ -340,7 +333,6 @@ def cmd_cd(dirname, with_id):
     cwd = getcwd()
     if with_id:
         id = dirname
-        dirname = get_name_by_id(id=id)
         cwd['id'] = id
     elif dirname is None:
         cwd['id'] = cwd['home_id']
