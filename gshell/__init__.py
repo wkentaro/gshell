@@ -415,9 +415,11 @@ def cmd_info(filename, with_id):
     stdout = subprocess.check_output(cmd, shell=True).strip()
     for line in stdout.splitlines():
         if line.startswith('ViewUrl:'):
-            print('ViewUrl: https://drive.google.com/open?id={id}'.format(id=id))
+            print('ViewUrl: https://drive.google.com/open?id={id}'
+                  .format(id=id))
         elif line.startswith('DownloadUrl:'):
-            print('DownloadUrl: https://drive.google.com/uc?id={id}'.format(id=id))
+            print('DownloadUrl: https://drive.google.com/uc?id={id}'
+                  .format(id=id))
         else:
             print(line)
     print('DownloadCommand: gdown --id {id}'.format(id=id))
