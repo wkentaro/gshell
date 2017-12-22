@@ -2,7 +2,7 @@
   <img src="images/gshell_youtube.png"  width="40%" align="right" />
 </a>
 
-# gshell
+# gshell = Google Drive + Shell
 
 [![](https://img.shields.io/pypi/v/gshell.svg)](https://pypi.python.org/pypi/gshell)
 [![](https://travis-ci.org/wkentaro/gshell.svg?branch=master)](https://travis-ci.org/wkentaro/gshell)
