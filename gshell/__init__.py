@@ -109,11 +109,11 @@ def get_path_by_id(id):
         exe=DRIVE_EXE, config=config_dir, id=id)
     stdout = subprocess.check_output(cmd, shell=True).strip()
     for line in stdout.splitlines():
-        if line.startswith('Parents: '):
+        if line.startswith('Path: '):
+            path = line[len('Path: '):]
+        elif line.startswith('Parents: '):
             path = osp.join('/', path)
             break
-        elif line.startswith('Path: '):
-            path = line[len('Path: '):]
     return path
 
 
