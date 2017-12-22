@@ -423,6 +423,7 @@ def cmd_info(filename, with_id):
             print('DownloadUrl: https://drive.google.com/uc?id={id}'.format(id=id))
         else:
             print(line)
+    print('DownloadCommand: gdown --id {id}'.format(id=id))
 
 
 def main():
