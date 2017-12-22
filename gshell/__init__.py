@@ -11,7 +11,6 @@ import subprocess
 import sys
 
 import click
-from termcolor import cprint
 import yaml
 
 
@@ -44,8 +43,8 @@ def init(name='system'):
         config_dir = osp.join(home_dir, '.gshell_configs', name)
 
     if not osp.exists(osp.join(config_dir, 'token_v2.json')):
-        cprint('Initializing {name} ({config})'
-               .format(name=name, config=config_dir), color='green')
+        print('Initializing {name} ({config})'
+              .format(name=name, config=config_dir))
         cmd = '{exe} --config {config} about'.format(
             exe=DRIVE_EXE, config=config_dir)
         subprocess.call(cmd, shell=True)
@@ -148,13 +147,11 @@ def cmd_switch(name):
             yaml.safe_dump(config, open(CONFIG_FILE, 'w'),
                            default_flow_style=True)
             init_config(name)
-            cprint('Switched to {name} ({config}).'
-                   .format(name=name, config=config_dir),
-                   color='green')
+            print('Switched to {name} ({config}).'
+                  .format(name=name, config=config_dir))
         else:
-            cprint('Config for {name} ({config}) does not exist.'
-                   .format(name=name, config=config_dir),
-                   color='red')
+            print('Config for {name} ({config}) does not exist.'
+                  .format(name=name, config=config_dir))
 
 
 @cli.command(name='about', help='show account status')
