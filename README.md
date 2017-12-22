@@ -10,6 +10,13 @@
 Navigate in Google Drive like you do so on shell.
 
 
+## Install
+
+```bash
+pip install gshell
+```
+
+
 ## Usage
 
 ```bash
@@ -41,14 +48,6 @@ Downloaded 0B9P1L--7Wd2vU3VUVlFnbTgtS2c at 5.0 B/s, total 5.0 B
 % cat spam.txt
 spam
 ```
-
-
-## Install
-
-```bash
-pip install gshell
-```
-
 
 
 ## Commands
