@@ -24,12 +24,15 @@ Shared: True
 ViewUrl: https://drive.google.com/open?id=0B9P1L--7Wd2vaGl4bDZaV2lESTQ
 DownloadCommand: gdown https://drive.google.com/uc?id=0B9P1L--7Wd2vaGl4bDZaV2lESTQ
 
+% gshell cd --with-id 0B9P1L--7Wd2vaGl4bDZaV2lESTQ
+
 % gshell pwd
 /20160502_gdown
 
-% gshell ls
-gdown-1.0.2.tar.gz
-spam.txt
+% gshell ll
+Id                             Name                 Type   Size     Created
+0B9P1L--7Wd2vT3Zxem1OdTMtWU0   gdown-1.0.2.tar.gz   bin    1.9 KB   2016-05-02 00:24:49
+0B9P1L--7Wd2vU3VUVlFnbTgtS2c   spam.txt             bin    5.0 B    2016-05-02 00:19:31
 
 % gshell download spam.txt
 Downloading spam.txt -> spam.txt
