@@ -109,11 +109,12 @@ def get_path_by_id(id):
         exe=DRIVE_EXE, config=config_dir, id=id)
     stdout = subprocess.check_output(cmd, shell=True).strip()
     for line in stdout.splitlines():
-        if not line.startswith('Path: '):
-            continue
-        path = line[len('Path: '):]
-        path = osp.join('/', path)
-        return path
+        if line.startswith('Parents: '):
+            path = osp.join('/', path)
+            break
+        elif line.startswith('Path: '):
+            path = line[len('Path: '):]
+    return path
 
 
 @cli.command(name='init', help='initialize gshell')

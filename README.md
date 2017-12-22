@@ -34,7 +34,7 @@ DownloadCommand: gdown https://drive.google.com/uc?id=0B9P1L--7Wd2vaGl4bDZaV2lES
 % gshell cd --with-id 0B9P1L--7Wd2vaGl4bDZaV2lESTQ
 
 % gshell pwd
-/20160502_gdown
+20160502_gdown
 
 % gshell ll
 Id                             Name                 Type   Size     Created
