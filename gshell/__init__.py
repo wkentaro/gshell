@@ -415,7 +415,14 @@ def cmd_info(filename, with_id):
     config_dir = _get_current_config_dir()
     cmd = '{exe} --config {config} info {id}'.format(
         exe=DRIVE_EXE, config=config_dir, id=id)
-    subprocess.call(cmd, shell=True)
+    stdout = subprocess.check_output(cmd, shell=True).strip()
+    for line in stdout.splitlines():
+        if line.startswith('ViewUrl:'):
+            print('ViewUrl: https://drive.google.com/open?id={id}'.format(id=id))
+        elif line.startswith('DownloadUrl:'):
+            print('DownloadUrl: https://drive.google.com/uc?id={id}'.format(id=id))
+        else:
+            print(line)
 
 
 def main():
