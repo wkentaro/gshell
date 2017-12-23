@@ -294,6 +294,8 @@ def get_id_by_path(path):
             continue
         if d == '..':
             id = get_parent_id(cwd['id']) or cwd['id']
+        elif d == '.':
+            id = cwd['id']
         else:
             id = get_id_by_name(d, cwd=cwd)
             if id is None:
