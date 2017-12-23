@@ -234,12 +234,20 @@ def cmd_ll(path):
 
 @cli.command(name='ls', help='list files')
 @click.argument('path', required=False)
-def cmd_ls(path):
+@click.option('-i', '--with-id', default=False, is_flag=True,
+              help='change directory with folder id')
+def cmd_ls(path, with_id):
     if path is None:
-        cwd = getcwd()
-        id = cwd['id']
+        if with_id:
+            print('Id must be specified.', file=sys.stderr)
+        else:
+            cwd = getcwd()
+            id = cwd['id']
     else:
-        id = get_id_by_path(path)
+        if with_id:
+            id = path
+        else:
+            id = get_id_by_path(path)
     config_dir = _get_current_config_dir()
     cmd = '{exe} --config {config} list'
     cmd += ''' --query "trashed = false and '{pid}' in parents"'''
@@ -250,7 +258,8 @@ def cmd_ls(path):
     header = lines[0]
     start = re.search('Name', header).start()
     end = re.search('Type', header).start()
-    path = '' if path is None else path
+    if path is None or with_id:
+        path = ''
     print('\n'.join(osp.join(path, l[start:end].strip())
                     for l in stdout.splitlines()[1:]))
 
