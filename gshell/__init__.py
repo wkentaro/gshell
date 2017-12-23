@@ -430,12 +430,11 @@ def cmd_info(filename, with_id):
             print('ViewUrl: https://drive.google.com/open?id={id}'
                   .format(id=id))
         elif line.startswith('DownloadUrl:'):
-            print('DownloadUrl: https://drive.google.com/uc?id={id}'
-                  .format(id=id))
+            url = 'https://drive.google.com/uc?id={id}'.format(id=id)
+            print('DownloadUrl: {url}'.format(url=url))
+            print('DownloadCommand: gdown {url}'.format(url=url))
         else:
             print(line)
-    print('DownloadCommand: gdown https://drive.google.com/uc?id={id}'
-          .format(id=id))
 
 
 def main():
