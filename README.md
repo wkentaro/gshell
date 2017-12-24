@@ -1,5 +1,5 @@
 <a href="https://www.youtube.com/watch?v=eDRTj_Hy2k4">
-  <img src="images/gshell_youtube.png"  width="40%" align="right" />
+  <img src=".readme/gshell_youtube.png"  width="40%" align="right" />
 </a>
 
 # gshell = Google Drive + Shell
