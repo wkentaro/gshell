@@ -29,7 +29,6 @@ Created: 2016-05-02 00:17:25
 Modified: 2017-12-23 01:56:42
 Shared: True
 ViewUrl: https://drive.google.com/open?id=0B9P1L--7Wd2vaGl4bDZaV2lESTQ
-DownloadCommand: gdown https://drive.google.com/uc?id=0B9P1L--7Wd2vaGl4bDZaV2lESTQ
 
 % gshell cd --with-id 0B9P1L--7Wd2vaGl4bDZaV2lESTQ
 
