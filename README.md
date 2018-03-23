@@ -7,7 +7,7 @@
 [![](https://img.shields.io/pypi/v/gshell.svg)](https://pypi.python.org/pypi/gshell)
 [![](https://travis-ci.org/wkentaro/gshell.svg?branch=master)](https://travis-ci.org/wkentaro/gshell)
 
-Navigate in Google Drive like you do so on shell.
+Navigate in Google Drive as you do on shell.
 
 
 ## Install
