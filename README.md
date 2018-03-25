@@ -78,6 +78,4 @@ Commands:
 
 ## License
 
-Copyright (C) 2015-2018 Kentaro Wada  
-Released under the MIT license  
-http://opensource.org/licenses/mit-license.php  
+See [LICENESE](LICENESE).
