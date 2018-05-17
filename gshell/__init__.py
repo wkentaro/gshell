@@ -75,6 +75,8 @@ def _get_home_id():
     cmd = '{exe} --config {config} list'.format(
         exe=DRIVE_EXE, config=config_dir)
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
+    if isinstance(stdout, bytes):
+        stdout = stdout.decode('utf-8')
     lines = stdout.splitlines()
     header = lines[0]
     start = re.search('Id', header).start()
@@ -108,6 +110,8 @@ def get_path_by_id(id):
     cmd = '{exe} --config {config} info {id}'.format(
         exe=DRIVE_EXE, config=config_dir, id=id)
     stdout = subprocess.check_output(cmd, shell=True).strip()
+    if isinstance(stdout, bytes):
+        stdout = stdout.decode('utf-8')
     for line in stdout.splitlines():
         if line.startswith('Path: '):
             path = line[len('Path: '):]
@@ -254,6 +258,8 @@ def cmd_ls(path, with_id):
     cmd += ' --max 100 --name-width 0'
     cmd = cmd.format(exe=DRIVE_EXE, config=config_dir, pid=id)
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
+    if isinstance(stdout, bytes):
+        stdout = stdout.decode('utf-8')
     lines = stdout.splitlines()
     header = lines[0]
     start = re.search('Name', header).start()
@@ -314,6 +320,8 @@ def get_id_by_name(name, cwd=None):
     cmd += ' --max 100 --name-width 0'
     cmd = cmd.format(exe=DRIVE_EXE, config=config_dir, pid=cwd['id'])
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
+    if isinstance(stdout, bytes):
+        stdout = stdout.decode('utf-8')
     lines = stdout.splitlines()
     header = lines[0]
     start = re.search('Name', header).start()
@@ -329,6 +337,8 @@ def get_parent_id(id):
     cmd = '{exe} --config {config} info {id}'.format(
         exe=DRIVE_EXE, config=config, id=id)
     stdout = subprocess.check_output(cmd, shell=True).decode('utf-8')
+    if isinstance(stdout, bytes):
+        stdout = stdout.decode('utf-8')
     for l in stdout.splitlines():
         if l.startswith('Parents: '):
             return l.split()[-1]
@@ -425,6 +435,8 @@ def cmd_info(filename, with_id):
     cmd = '{exe} --config {config} info {id}'.format(
         exe=DRIVE_EXE, config=config_dir, id=id)
     stdout = subprocess.check_output(cmd, shell=True).strip()
+    if isinstance(stdout, bytes):
+        stdout = stdout.decode('utf-8')
     for line in stdout.splitlines():
         if line.startswith('ViewUrl:'):
             print('ViewUrl: https://drive.google.com/open?id={id}'
