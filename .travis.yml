@@ -4,11 +4,11 @@ language: python
 
 python:
 - '2.7'
-- '3.3'
+- '3.6'
 
 install:
 - pip install -U pip setuptools
-- pip install flake8 hacking
+- pip install flake8
 
 before_script:
 - flake8
