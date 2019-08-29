@@ -8,7 +8,7 @@
 
 <div align="center">
   <a href="https://pypi.python.org/pypi/gshell"><img src="https://img.shields.io/pypi/v/gshell.svg"></a>
-  <a href="https://travis-ci.org/wkentaro/gshell"><img src="https://travis-ci.org/wkentaro/gshell.svg?branch=master"></a>
+  <a href="https://github.com/wkentaro/gshell/actions"><img src="https://github.com/wkentaro/gshell/workflows/CI/badge.svg"></a>
 </div>
 
 <div align="center">
