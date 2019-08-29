@@ -67,6 +67,7 @@ setup(
     package_data={'gshell': ['bin/_gshell_drive-*']},
     description='Tool to handle google drive as shell',
     long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     author='Kentaro Wada',
     author_email='www.kentaro.wada@gmail.com',
     url='http://github.com/wkentaro/gshell',
