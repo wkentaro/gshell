@@ -59,7 +59,7 @@ def init(name='system'):
 def _get_current_config_dir():
     default_config_dir = osp.expanduser('~/.gdrive')
     if osp.exists(CONFIG_FILE):
-        config = yaml.load(open(CONFIG_FILE))
+        config = yaml.safe_load(open(CONFIG_FILE))
         name = config.get('name', 'system')
     else:
         name = 'system'
@@ -97,7 +97,7 @@ def init_config(name='system'):
 
 def getcwd():
     if osp.exists(CONFIG_FILE):
-        return yaml.load(open(CONFIG_FILE))
+        return yaml.safe_load(open(CONFIG_FILE))
     return init_config()
 
 
@@ -133,7 +133,7 @@ def cmd_switch(name):
     if not osp.exists(config_list_dir):
         os.mkdir(config_list_dir)
     if name is None:
-        config = yaml.load(open(CONFIG_FILE, 'r'))
+        config = yaml.safe_load(open(CONFIG_FILE, 'r'))
         current_name = config.get('name', 'system')
         config_list = {name: osp.join(config_list_dir, name)
                        for name in os.listdir(config_list_dir)}
@@ -145,7 +145,7 @@ def cmd_switch(name):
     else:
         config_dir = osp.join(config_list_dir, name)
         if name == 'system' or osp.exists(config_dir):
-            config = yaml.load(open(CONFIG_FILE, 'r'))
+            config = yaml.safe_load(open(CONFIG_FILE, 'r'))
             config['name'] = name
             yaml.safe_dump(config, open(CONFIG_FILE, 'w'),
                            default_flow_style=True)
