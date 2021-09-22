@@ -83,8 +83,3 @@ Commands:
   switch    switch user
   upload    upload file
 ```
-
-
-## License
-
-See [LICENESE](LICENESE).
