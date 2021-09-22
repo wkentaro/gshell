@@ -262,8 +262,8 @@ def cmd_ls(path, with_id):
     end = re.search('Type', header).start()
     if path is None or with_id:
         path = ''
-    print('\n'.join(osp.join(path, l[start:end].strip())
-                    for l in stdout.splitlines()[1:]))
+    print('\n'.join(osp.join(path, line[start:end].strip())
+                    for line in stdout.splitlines()[1:]))
 
 
 @cli.command(name='mkdir', help='make directory')
@@ -320,8 +320,8 @@ def get_id_by_name(name, cwd=None):
     header = lines[0]
     start = re.search('Name', header).start()
     end = re.search('Type', header).start()
-    for l in stdout.splitlines()[1:]:
-        id, title = l[:start].strip(), l[start:end].strip()
+    for line in stdout.splitlines()[1:]:
+        id, title = line[:start].strip(), line[start:end].strip()
         if name == title:
             return id
 
@@ -331,9 +331,9 @@ def get_parent_id(id):
     cmd = '{exe} --config {config} info {id}'.format(
         exe=DRIVE_EXE, config=config, id=id)
     stdout = util.check_output(cmd)
-    for l in stdout.splitlines():
-        if l.startswith('Parents: '):
-            return l.split()[-1]
+    for line in stdout.splitlines():
+        if line.startswith('Parents: '):
+            return line.split()[-1]
 
 
 @cli.command(name='cd', help='change directory')
