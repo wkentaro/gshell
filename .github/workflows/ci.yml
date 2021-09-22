@@ -36,6 +36,12 @@ jobs:
         pip install flake8
         flake8 .
 
+    - name: Black
+      run: |
+        pip install black
+        black --check .
+      if: matrix.python-version != '2.7' && matrix.python-version != '3.5'
+
     - name: Install from source
       run: |
         pip install -r requirements.txt

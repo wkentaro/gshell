@@ -16,5 +16,5 @@ def check_output(cmd, retry=50):
             output=stdout,
         )
     if isinstance(stdout, bytes):
-        stdout = stdout.decode('utf-8')
+        stdout = stdout.decode("utf-8")
     return stdout
