@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-
-from __future__ import print_function
-
 import os
 import platform
 import subprocess
@@ -11,7 +7,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '5.5.3'
+version = '5.5.4'
 
 
 def get_data_files():
