@@ -522,6 +522,25 @@ def cmd_info(filename, with_id):
             print(line)
 
 
+@cli.command(name="sync_upload", help="sync local to remote")
+@click.argument(
+    "path", required=True, type=click.Path(exists=True), nargs=1
+)
+def cmd_sync_upload(path):
+    cwd = getcwd()
+    if not path.endswith(osp.sep) and osp.isdir(path):
+        dirname = osp.basename(path)
+        mkdir(dirname, parent_id=cwd["id"])
+        id = get_id_by_path(dirname)
+    else:
+        id = cwd["id"]
+    config_dir = _get_current_config_dir()
+    cmd = "{exe} --config {config} sync upload {path} {id}".format(
+        exe=DRIVE_EXE, config=config_dir, path=path, id=id
+    )
+    subprocess.call(cmd, shell=True)
+
+
 def main():
     cli()
 

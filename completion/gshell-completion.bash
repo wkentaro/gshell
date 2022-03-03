@@ -22,7 +22,7 @@ _gshell()
         opts="$(gshell ls 2>/dev/null)"
         opts="${opts[@]} $(gshell ls $cur 2>/dev/null)"
         ;;
-      upload)
+      upload|sync_upload)
         opts=$(command ls)
         opts="${opts[@]} $(command find $cur -maxdepth 1 2>/dev/null)"
         ;;
