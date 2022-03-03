@@ -523,9 +523,7 @@ def cmd_info(filename, with_id):
 
 
 @cli.command(name="sync_upload", help="sync local to remote")
-@click.argument(
-    "path", required=True, type=click.Path(exists=True), nargs=1
-)
+@click.argument("path", required=True, type=click.Path(exists=True), nargs=1)
 def cmd_sync_upload(path):
     cwd = getcwd()
     if not path.endswith(osp.sep) and osp.isdir(path):
