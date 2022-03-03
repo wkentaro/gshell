@@ -237,9 +237,19 @@ def cmd_download(filename, recursive, with_id):
 @click.option(
     "-r", "--recursive", is_flag=True, help="remove files recursively"
 )
-def cmd_rm(filename, recursive):
+@click.option(
+    "-i",
+    "--with-id",
+    default=False,
+    is_flag=True,
+    help="with id",
+)
+def cmd_rm(filename, recursive, with_id):
     config_dir = _get_current_config_dir()
-    id = get_id_by_path(filename)
+    if with_id:
+        id = filename
+    else:
+        id = get_id_by_path(filename)
     cmd = "{exe} --config {config} delete".format(
         exe=DRIVE_EXE, config=config_dir
     )
