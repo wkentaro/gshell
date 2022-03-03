@@ -316,15 +316,19 @@ def cmd_ls(path, with_id):
     )
 
 
+def mkdir(dirname, parent_id):
+    config_dir = _get_current_config_dir()
+    cmd = "{exe} --config {config} mkdir {name} --parent {parent}".format(
+        exe=DRIVE_EXE, config=config_dir, name=dirname, parent=parent_id
+    )
+    subprocess.call(cmd, shell=True)
+
+
 @cli.command(name="mkdir", help="make directory")
 @click.argument("dirname", required=True)
 def cmd_mkdir(dirname):
     cwd = getcwd()
-    config_dir = _get_current_config_dir()
-    cmd = "{exe} --config {config} mkdir {name} --parent {pid}".format(
-        exe=DRIVE_EXE, config=config_dir, name=dirname, pid=cwd["id"]
-    )
-    subprocess.call(cmd, shell=True)
+    mkdir(dirname=dirname, parent_id=cwd["id"])
 
 
 @cli.command(name="pwd", help="print current working directory")
