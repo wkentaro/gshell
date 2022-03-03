@@ -51,7 +51,7 @@ def get_data_files():
 if sys.argv[-1] == "release":
     for cmd in [
         "git tag %s" % version,
-        "git push origin master --tags",
+        "git push origin main --tags",
         "python setup.py sdist",
         "twine upload dist/gshell-%s.tar.gz" % version,
     ]:
