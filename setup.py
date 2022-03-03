@@ -47,46 +47,66 @@ def get_data_files():
     return data_files
 
 
-# publish helper
-if sys.argv[-1] == "release":
-    for cmd in [
-        "git tag %s" % version,
-        "git push origin main --tags",
-        "python setup.py sdist",
-        "twine upload dist/gshell-%s.tar.gz" % version,
-    ]:
-        subprocess.check_call(cmd, shell=True)
-    sys.exit(0)
+def get_long_description():
+    with open("README.md") as f:
+        content = f.read()
+    try:
+        import github2pypi
 
-setup(
-    name="gshell",
-    version=version,
-    packages=find_packages(),
-    package_data={"gshell": ["bin/_gshell_drive-*"]},
-    description="Tool to handle google drive as shell",
-    long_description=open("README.md").read(),
-    long_description_content_type="text/markdown",
-    author="Kentaro Wada",
-    author_email="www.kentaro.wada@gmail.com",
-    url="http://github.com/wkentaro/gshell",
-    install_requires=open("requirements.txt").readlines(),
-    license="MIT",
-    keywords="utility",
-    classifiers=[
-        "Development Status :: 5 - Production/Stable",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: POSIX",
-        "Topic :: Internet :: WWW/HTTP",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: Implementation :: CPython",
-    ],
-    entry_points={"console_scripts": ["gshell=gshell:main"]},
-    data_files=get_data_files(),
-)
+        return github2pypi.replace_url(
+            "wkentaro/gshell", content, branch="main"
+        )
+    except ImportError:
+        return content
+
+
+def main():
+    if sys.argv[-1] == "release":
+        import github2pypi  # NOQA
+        import twine  # NOQA
+
+        for cmd in [
+            "git tag %s" % version,
+            "git push origin main --tags",
+            "python setup.py sdist",
+            "twine upload dist/gshell-%s.tar.gz" % version,
+        ]:
+            subprocess.check_call(cmd, shell=True)
+        sys.exit(0)
+
+    setup(
+        name="gshell",
+        version=version,
+        packages=find_packages(),
+        package_data={"gshell": ["bin/_gshell_drive-*"]},
+        description="Tool to handle google drive as shell",
+        long_description=get_long_description(),
+        long_description_content_type="text/markdown",
+        author="Kentaro Wada",
+        author_email="www.kentaro.wada@gmail.com",
+        url="http://github.com/wkentaro/gshell",
+        install_requires=open("requirements.txt").readlines(),
+        license="MIT",
+        keywords="utility",
+        classifiers=[
+            "Development Status :: 5 - Production/Stable",
+            "Intended Audience :: Developers",
+            "License :: OSI Approved :: MIT License",
+            "Operating System :: POSIX",
+            "Topic :: Internet :: WWW/HTTP",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 2.7",
+            "Programming Language :: Python :: 3.5",
+            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: Implementation :: CPython",
+        ],
+        entry_points={"console_scripts": ["gshell=gshell:main"]},
+        data_files=get_data_files(),
+    )
+
+
+if __name__ == "__main__":
+    main()
