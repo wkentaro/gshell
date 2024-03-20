@@ -1,5 +1,5 @@
 -r requirements.txt
-black==22.1.0
+black==24.3.0
 github2pypi==1.0.0
 hacking==4.1.0
 pytest
